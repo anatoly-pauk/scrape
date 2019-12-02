@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Enrollment Deletion
+            </div>
+            <div class="modal-body">
+                WARNING: You are about to delete all assignments for this curriculum for this student. Are you sure?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-danger btn-ok">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<h3 align="center"> Scroll Down to View All or Use the Filter Options </h3>
+<form method="get">
+    {{ filter.form.as_p }}
+    <button type="submit">Search</button>
+</form>
+<br/>
+
+
+{% if active_weights %}
+Adjust the weights of curriculum for these subjects for this student only:<br/>
+{% for w in active_weights %}
+{% for s in w.subjects %}
+<a href="{% url "weight_edit_view" semester=w.sem student_pk=student.pk subject=s %}">{{ w.sem }} {{ s }}</a><br/>
+{% endfor %}
+{% endfor %}
+<br/>
+{% endif %}
+
+
+<div class='col-80 col-md-100 mb-1 mx-auto'>
+<div class='card'>
+  <div class='card-body'>
+      <h3 class = 'card-title'>
+          {{student.first_name}} {{student.last_name}}'s Curriculum<p></p>
+      </h3>
+      <strong>Student Grade: {{student.grade}}</strong><br/><br/>
+      {% for enrollment in object_list %}
+          <div class='card-text'>
+            <strong>
+            {{enrollment.curriculum.subject}}-{{enrollment.curriculum.name}}</strong><br/>Grade Level Assigned:
+            {{enrollment.curriculum.grade_level}}<br/> 
+            Gradable Assignment Number: {% if enrollment.gradassign %}{{enrollment.gradassign}}{% else %}-{% endif %}<br/>
+            Recording Progress Is: 
+            {{enrollment.recorded_from}}<br/> Assigments:
+            {{enrollment.tracking}}</a><br/>
+            Minimum Required Weekly:
+            {{enrollment.required}}</a><br/>
+            Subject Weight: {{enrollment.weight}}<br/>
+            Student Should Finish These Assignments On or Before: <strong>{{enrollment.semesterend}}</strong>
+            <div></div>
+            <a href="{% url "grades-record-manual" enrollment_pk=enrollment.pk %}">Record Manually Entered Grades</a><br/>
+            <a href="{% url "student-assignment-list-view" enrollment.student.pk enrollment.curriculum.pk %}">View/Edit student's assignments on this course</a>
+<div></div>
+            <a href="{% url 'edit_enrollment' enrollment.pk %}">Edit this enrollment</a>
+
+           <div></div>
+            <a href="#" data-href='{% url 'delete_enrollment' enrollment.pk %}', data-toggle="modal" data-target="#confirm-delete">Remove {{enrollment.curriculum.name}} From
+           {{student.get_full_name}}'s Pacing </a>
+          </div>
+          <br/>
+         
+
+         {% empty %}
+         <div class='card-text'>
+         <h5>This student has no curriculum set up.</h5>
+         <br/>
+         <a href="/enroll-student/">Add a Curriculum to Student's Pacing</a>
+         </div> 
+         {% endfor %}
+      <p></p>
+  </div>
+</div>
+</div>
+
+
+<div class="pagination">
+    <span class="step-links">
+        {% if object_list.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ object_list.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+        </span>
+
+        {% if object_list.has_next %}
+            <a href="?page={{ object_list.next_page_number }}">next</a>
+            <a href="?page={{ object_list.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+<script>
+    $('#confirm-delete').on('show.bs.modal', function(e) {
+        $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+    });
+</script>
+
+{% endblock %}
+
+

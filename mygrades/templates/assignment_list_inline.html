@@ -1,0 +1,41 @@
+
+
+
+<div class='col-20 col-md-50 mb-1 mx-auto'>
+<div class='card'>
+ 
+  <div class='card-body'>
+
+    
+      
+      <h5 class = 'card-title'> Title:  {{object.name}} </h5> 
+
+      <div class = 'card-text'>
+          Standard(s): {% if object.standard.all %}{% for objs_standard in object.standard.all %}
+          {{objs_standard.standard_code}}{% if not forloop.last %}, {% endif %}{% endfor %}{% else %}-{% endif %}<br/>
+          Standard Grade Level(s): {% if object.standard.all %}{% for objs_standard in object.standard.all %}
+          {{objs_standard.grade_level}}{% if not forloop.last %}, {% endif %}{% endfor %}{% else %}-{% endif %}<br/>
+      	Curriculum: {{object.curriculum.name}}<br/>
+        
+        
+      	Instructions or Link: <a href="{{object.description}}">
+
+        {{object.description}}</a>
+        
+       
+      </div>
+
+
+{% ifequal user.groups.all.0.name "Owner" %}
+
+      <a href='{{ object.get_edit_url }}' > Edit ANY Information for:
+        {{object.name}}</a> (This will edit settings for this assignment for ALL students)
+
+        <a href='{{ object.get_delete_url }}' > Delete 
+        {{object.name}}</a> (This will delete this assignment for ALL students, in all curriculum.)
+        {% endifequal %}
+
+       
+  </div>
+</div>
+</div>
