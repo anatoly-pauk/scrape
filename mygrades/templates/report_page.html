@@ -187,7 +187,7 @@
             {% endfor %}
             </tbody>
         </table>
-        {% elif site == "Compass"%}
+        {% elif site == "Learning"%}
 
         <table class="table table-hover table-responsive">
             <thead class="the-box dark full">
@@ -219,15 +219,17 @@
             </tbody>
         </table>
 
-        {% elif site == "Math Seeds" %}
-        <table class="table table-hover">
+        {% elif site == "Compass"%}
+
+        <table class="table table-hover table-responsive">
             <thead class="the-box dark full">
             <tr>
                 <th>Id</th>
                 <th>First Name</th>
                 <th>Last Name</th>
-                <th>Lessons completed</th>
-                
+                <th>Course Name</th>
+                <th>Course Grade</th>
+
             </tr>
             </thead>
             <tbody>
@@ -236,7 +238,8 @@
                 <td>{{key| add:1}}</td>
                 <td>{{val.first_name}}</td>
                 <td>{{val.last_name}}</td>
-                <td>{{val.lessons_completed}}</td>
+                <td>{{val.course_name}}</td>
+                <td>{{val.course_grade}}</td>
 
             </tr>
             {% endfor %}
@@ -289,34 +292,6 @@
             </tbody>
         </table>
 
-        {% elif site == "Reading Eggs" %}
-        <table class="table table-hover">
-            <thead class="the-box dark full">
-            <tr>
-                <th>Id</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <!-- <th>Quiz Score</th> -->
-                <th>lessons completed</th>
-                <!-- <th>Average Score</th> -->
-
-            </tr>
-            </thead>
-            <tbody>
-            {% for key, val in data.items %}
-            <tr>
-                <td>{{key| add:1}}</td>
-                <td>{{val.first_name}}</td>
-                <td>{{val.last_name}}</td>
-                <!-- <td>{{val.quiz_score}}</td> -->
-                <td>{{val.lessons_completed}}</td>
-                <!-- <td>{{val.average_score}}</td> -->
-
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-
         {% elif site == "Success Maker" %}
         <table class="table table-hover table-responsive">
             <thead class="the-box dark full">
@@ -339,7 +314,56 @@
             {% endfor %}
             </tbody>
         </table>
+
+        {% elif site == "Reading Eggs" %}
+        <table class="table table-hover">
+            <thead class="the-box dark full">
+            <tr>
+                <th>Id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Lessons completed</th>
+                
+            </tr>
+            </thead>
+            <tbody>
+            {% for key, val in data.items %}
+            <tr>
+                <td>{{key| add:1}}</td>
+                <td>{{val.first_name}}</td>
+                <td>{{val.last_name}}</td>
+                <td>{{val.lessons_completed}}</td>
+
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
         {% elif site == "Reading Eggspress" %}
+        <table class="table table-hover">
+            <thead class="the-box dark full">
+            <tr>
+                <th>Id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Lessons completed</th>
+                
+            </tr>
+            </thead>
+            <tbody>
+            {% for key, val in data.items %}
+            <tr>
+                <td>{{key| add:1}}</td>
+                <td>{{val.first_name}}</td>
+                <td>{{val.last_name}}</td>
+                <td>{{val.lessons_completed}}</td>
+
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {% elif site == "Math Seeds" %}
         <table class="table table-hover">
             <thead class="the-box dark full">
             <tr>

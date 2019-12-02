@@ -103,11 +103,9 @@ from mygrades.views import (
     military,
     vo_tech,
     email_all_families_view,
-    #standards_curriculum_map,
 )
 
 urlpatterns = [
-    #path("curriculum-map/", standards_curriculum_map),
     path("okpromise/",okpromise),
     path("sat/", sat),
     path("honors/",honors),

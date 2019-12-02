@@ -149,10 +149,6 @@ def set_css_attr(form):
         if field.widget.__class__ == forms.widgets.ClearableFileInput:
             field.widget.attrs.update({'multiple': '', 'id': 'filepicker', 'webkitdirectory': '', 'directory': ''})
 
-class PlainTextWidget(forms.Widget):
-    def render(self, name, value, attrs=None, renderer=None):
-        return mark_safe(value) if value is not None else '-'
-
 
 class CustomCurriculumSetUpForm(forms.ModelForm):
     # username=forms.CharField(required=False, label="Your Username For Website (Only if Data Pulls Automatically - You may leave blank.)")
@@ -215,7 +211,6 @@ class StudentModelForm(forms.ModelForm):
             "grade",
             "birthdate",
             "teacher_email",
-            "goog_calendar"
 
         ]
         labels = {
@@ -229,7 +224,6 @@ class StudentModelForm(forms.ModelForm):
             "grade": "Student Enrollment Grade - Change this each year for previous students.",
             "birthdate": "Date of Birth (Happy Birthday shows on Student's screen)",
             "teacher_email": "Teacher's eMail - MUST be the email that you supplied when you purchased your site.  ALL LOWERCASE.  Any mis-spelling will hide your students from you.",
-            "goog_calendar": "Set up a NEW calendar just for this student.  Paste the public URL here."
         }
 
     def clean_epicenter_id(self, *arts, **kwargs):
@@ -518,8 +512,6 @@ class RecordGradeManualForm(forms.ModelForm):
         ("2", "2"),
     ]
 
-    required_desc = forms.CharField(widget=PlainTextWidget, required=False, disabled=True, label="Number of Lessons or Minutes Required")
-
     class Meta:
         model = GradeBook
 
@@ -527,24 +519,23 @@ class RecordGradeManualForm(forms.ModelForm):
             "student",
             "curriculum",
             "academic_semester",
-            #"required",
-            "required_desc",
             "complete",
-            "grade",
-            "semester",
+            "required",
             "quarter",
             "week",
+            "grade",
+            "semester",
         ]
 
         labels = {
             "student": "Student",
             "curriculum": "Curriculum",
             "enrollment": "Enrollment",
-            #"required": "Number of Lessons or Minutes Required",
-            "complete": "Percent Complete, Minutes Worked, or # Lessons Complete",
-            "grade": "Grade",
+            "complete": "Number of Lessons or Minutes Completed",
+            "required": "Number of Lessons or Minutes Required",
             "quarter": "Quarter",
             "week": "Week",
+            "grade": "Grade",
             "semester": "Semester",
         }
 
@@ -554,12 +545,11 @@ class RecordGradeManualForm(forms.ModelForm):
             'academic_semester': forms.HiddenInput(),
         }
 
-    def __init__(self, *args, **kwargs):
-        enrollment = kwargs.pop('enrollment',None)
-        super(RecordGradeManualForm, self).__init__(*args, **kwargs)
-
-        if enrollment:
-            self.fields['required_desc'].initial = enrollment.required
+        # def __init__(self, *args, **kwargs):
+            # super(RecordGradeManualForm, self).__init__(*args, **kwargs)
+            # self.fields['student'].widget = forms.HiddenInput()
+            # self.fields['curriculum'].widget = forms.HiddenInput()
+            # self.fields['academic_semester'].widget = forms.HiddenInput()
 
 
 class RecordGradeForm(forms.ModelForm):
@@ -620,22 +610,22 @@ class RecordGradeForm(forms.ModelForm):
         fields = [
             "student",
             "curriculum",
-            #"required",
             "complete",
-            "grade",
+            "required",
             "quarter",
             "week",
+            "grade",
             "semester",
         ]
 
         labels = {
             "student": "Student",
             "curriculum": "Curriculum",
-            #"required": "Number of Lessons or Minutes Required",
             "complete": "Number of Lessons or Minutes Completed",
-            "grade": "Grade",
+            "required": "Number of Lessons or Minutes Required",
             "quarter": "Quarter",
             "week": "Week",
+            "grade": "Grade",
             "semester": "Semester",
         }
 
@@ -678,6 +668,10 @@ class AssignmentCreateForm(forms.ModelForm):
             self.fields["standard"].queryset = Standard.objects.all()
             self.fields["curriculum"].queryset = Curriculum.objects.all()
 
+
+class PlainTextWidget(forms.Widget):
+    def render(self, name, value, attrs=None, renderer=None):
+        return mark_safe(value) if value is not None else '-'
 
 
 class StudentAssignmentForm(forms.ModelForm):
@@ -734,8 +728,6 @@ class TeacherModelForm(forms.ModelForm):
             "email",
             "zoom",
             "syllabus",
-            "principal_email",
-            "phone",
         ]
         labels = {
             "first_name": "Teacher's First Name - Capitalize First Letter ONLY",
@@ -743,8 +735,6 @@ class TeacherModelForm(forms.ModelForm):
             "email": "Teacher e-Mail - all lowercase",
             "zoom": "Zoom Link",
             "syllabus":"Syllabus Link",
-            "principal_email": "Send PLP's to your principal with a click.",
-            "phone":"Phone Number"
         }
 
         def __init__(self, *args, **kwargs):
@@ -792,39 +782,16 @@ class ReportProgressForm(forms.Form):
 
 class ReportCardForm(forms.Form):
     student = forms.ModelChoiceField(queryset=Student.objects.all())
-    math_overall = forms.IntegerField(label="Math Overall")
-    ela_overall = forms.IntegerField(label="ELA Overall")
-    science_overall = forms.IntegerField(label="Science Overall")
-    history_overall = forms.IntegerField(label="History Overall")
-    ga_overall = forms.IntegerField(label="Gradable Assignments")
+    student_desc = forms.CharField(widget=PlainTextWidget, required=False, label="Student Name")
 
     def __init__(self, *args, **kwargs):
         super(ReportCardForm, self).__init__(*args, **kwargs)
         self.fields['student'].widget = forms.HiddenInput()
 
-        self.extra_fields = list(filter(lambda x:x.startswith('other'), self.initial.keys()))
-        for field in self.extra_fields:
-            self.fields[field] = forms.IntegerField(label="%s Overall" % (field,))
-            self.fields[field].initial = self.initial[field]
-            self.fields[field].label = field.replace('other_','')
-
-
     def save(self, asem=None, quarter=None, semester=None):
         if not asem or not quarter or not semester:
             raise Exception("Something was missing.")
-
-        data = {
-            'Math': self.cleaned_data['math_overall'],
-            'ELA': self.cleaned_data['ela_overall'],
-            'Science': self.cleaned_data['science_overall'],
-            'History': self.cleaned_data['history_overall'],
-        }
-
-        for item in self.extra_fields:
-            cur_name = item.replace('other_','')
-            data.update({cur_name:self.cleaned_data[item]})
-
-        save_report(asem, self.cleaned_data['student'], semester=semester, quarter=quarter, report_type="report-card-quarter", override_data=data)
+        save_report(asem, self.cleaned_data['student'], semester=semester, quarter=quarter, report_type="report-card-quarter")
 
 
 class StatusChangeForm(forms.Form):
@@ -1059,10 +1026,8 @@ class EGBaseFormSet(BaseFormSet):
                     self.alert_email_sent = True
 
 
-def save_report(academic_semester, student, semester="", week="", quarter="", report_type="", override_data=None): 
-    if override_data != None:
-        final_data = override_data
-    elif report_type=="gradassign":
+def save_report(academic_semester, student, semester="", week="", quarter="", report_type=""): 
+    if report_type=="gradassign":
         if not week:
             raise Exception("Week is needed for a Gradable Assignment Report")
         curriculum, created = Curriculum.objects.get_or_create(name='Gradable Assignments', subject='Other', grade_level='All')
@@ -1105,58 +1070,24 @@ def gen_quarter_overall_average(academic_semester, student, semester, quarter):
     for key,val in overall.items():
         if key not in totals:
             totals.update({key:0})
-
-        # if all data not available, just assign last week instead
-        empty_count = val.count('')
-        if empty_count > 0: 
-            if empty_count == 9:
-                continue
-
-            totals[key] = val[val.index('') - 1]
-            continue
-
         for grade in val:
             if grade == '':
                 grade = 0
             totals[key] = totals[key] + int(grade)
 
-        if key == "GA":
+    for k,v in totals.items():
+        if k == "GA":
             continue
-
-        totals[key] = round(totals[key]/9)
+        totals[k] = round(totals[k]/9)
 
     return totals
 
 def gen_overall_data_progress_weekly(academic_semester, student, semester, quarter):
     start_week = (int(quarter)-1)*9 + 1
-    overall = {'Math':[],'ELA':[],'Science':[],'History':[], 'GA':[]}
 
-    # handle subject 'other'
-    subject = "Other"
-    enrollments = Enrollment.objects.filter(student=student, academic_semester=academic_semester, curriculum__subject=subject)
-    gradebooks = GradeBook.objects.filter(student=student, curriculum__pk__in=enrollments.values_list('curriculum',flat=True), quarter=quarter, semester=semester, academic_semester=academic_semester)
-    for item in gradebooks:
-        subject = item.curriculum.name
-        enr = enrollments.filter(curriculum=item.curriculum)[0]
-        overall.update({subject:[]})
-
-        for week in range(start_week,start_week+9): #for each week e.g (10-18)
-            total = 0
-            gbs = gradebooks.filter(curriculum=item.curriculum, week=week)
-
-            if gbs.count() == 0:
-                overall[subject].append('')
-                continue
-
-            total = 0
-            if gbs.count() == 1:
-                gb = gbs[0]
-                total += round(gb.grade * (enr.weight/100))
-            overall[subject].append(total)
-
-
-    #summary for math,ela,science,history and ga 
-    for subject in ['Math','ELA','Science','History']:
+    #summary per week
+    overall = {'Math':[],'ELA':[],'Science':[],'Other':[],'History':[], 'GA':[]}
+    for subject in ['Math','ELA','Science','Other','History']:
         enrollments = Enrollment.objects.filter(student=student, academic_semester=academic_semester, curriculum__subject=subject)
         for week in range(start_week,start_week+9): #for each week e.g (10-18)
             gradebook = GradeBook.objects.filter(student=student, curriculum__pk__in=enrollments.values_list('curriculum',flat=True), quarter=quarter, week=week, semester=semester, academic_semester=academic_semester)
@@ -1172,11 +1103,6 @@ def gen_overall_data_progress_weekly(academic_semester, student, semester, quart
                     total += round(gradebook.grade * (enr.weight/100))
             overall[subject].append(total)
 
-
-    
-
-
-    # handle GA
     ga_cur, created = Curriculum.objects.get_or_create(name='Gradable Assignments', subject='Other', grade_level='All')
     for week in range(start_week,start_week+9):
         gradebook = GradeBook.objects.filter(student=student, curriculum=ga_cur, quarter=quarter, week=week, semester=semester, academic_semester=academic_semester)
@@ -1210,7 +1136,7 @@ def gen_rep_data_progress_weekly(academic_semester, student, semester, quarter):
                 gradebook = GradeBook.objects.filter(student=student, curriculum=cur, quarter=quarter, week=week, semester=semester, academic_semester=academic_semester)
                 if gradebook.count() == 1:
                     gradebook = gradebook[0]
-                    cur_info['data'].append({'grade':gradebook.grade, 'current':gradebook.complete}) # to test the render   'current':100
+                    cur_info['data'].append({'grade':gradebook.grade, 'current':''}) # to test the render   'current':100
                 else:
                     cur_info['data'].append({'grade':'', 'current':''})
             item['curs'].append(cur_info)

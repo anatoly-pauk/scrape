@@ -133,14 +133,13 @@ def vo_tech(request):
 
 @login_required
 def home_page_view(request):
-    teacher = None
     if request.user.groups.filter(name="Student").count() > 0:
         student = get_object_or_404(Student, email=request.user.email)
-        teacher = Teacher.objects.get(email=student.teacher_email)
+        teacher =Teacher.objects.get(email=student.teacher_email)
     else:
         return render(request, "index.html")
     template_name = "index.html"
-    context = {"object": student, "teacher":teacher}
+    context = {"object": student}
     return render(request, template_name, context)
 
 def tutorials_page_view(request):
@@ -469,7 +468,35 @@ def crawler(request, site_name=None):
 
         return redirect('/grades')
 
+    now = datetime.datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    print("Current Time =", current_time)
     print('site name => ', site_name)
+
+    import threading
+
+    # class SummingThread(threading.Thread):
+    #     def __init__(self,low,high):
+    #         super(SummingThread, self).__init__()
+    #         self.low=low
+    #         self.high=high
+    #         self.total=0
+
+    #     def run(self):
+    #         for i in range(self.low,self.high):
+    #             self.total+=i
+
+
+    # thread1 = SummingThread(0,500000)
+    # thread2 = SummingThread(500000,1000000)
+    # thread1.start() # This actually causes the thread to run
+    # thread2.start()
+    # thread1.join()  # This waits until the thread has completed
+    # thread2.join()  
+    # # At this point, both threads have completed
+    # result = thread1.total + thread2.total
+    # print result
+
     template_name = "report_page.html"
     if site_name == 'Dreambox':
         response = get_dream_box_data()
@@ -501,6 +528,9 @@ def crawler(request, site_name=None):
     # pass data to next request, no need to crawl again
     response.update({"json": json.dumps(response,default=str)})
     response.update({'semester_options': generate_semester_choices()})
+    now = datetime.datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    print("Current Time =", current_time)
     print(response)
     return render(request, template_name, response)
 

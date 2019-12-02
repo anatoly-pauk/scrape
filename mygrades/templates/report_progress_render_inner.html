@@ -30,12 +30,12 @@
     </thead>
     <tbody>
         {% for ga in rep.data.grades %}
-        {# <tr><td colspan="20"><b>Gradable Assignment #{{ forloop.counter }}</b></td></tr> #}
+        <tr><td colspan="20"><b>Gradable Assignment #{{ forloop.counter }}</b></td></tr>
         {% for cur in ga.curs %} {# ga 1 #}
         <tr>
             <td>{{ cur.name }}</td>
             {% for n in cur.data %}
-            <td>{% if n.current %}{{ n.current }}{% endif %}</td>
+            <td>{{ n.current }}</td>
             <td>{{ n.grade }}</td>
             {% endfor %}
         </tr>

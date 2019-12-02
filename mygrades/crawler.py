@@ -19,13 +19,13 @@ from django.conf import settings
 
 
 # options = Options()
-# options.headless = False
-chrome_options = webdriver.ChromeOptions()
-chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-chrome_options.add_argument("--headless")
-chrome_options.add_argument("--disable-dev-shm-usage")
-chrome_options.add_argument("--no-sandbox")
 
+options = webdriver.ChromeOptions()
+options.add_argument("--headless")
+options.add_argument("--disable-dev-shm-usage")
+options.add_argument("--no-sandbox")
+path = os.getcwd() + '/mygrades/chromedriver'
+# path = './chromedriver'
 
 counter = 0
 delayTime = 5
@@ -41,15 +41,13 @@ def seven_days():
     return (datetime.datetime(startdate.year, startdate.month, startdate.day, startdate.weekday()),
             datetime.datetime(date.year, date.month, date.day, startdate.weekday()))
 
-
 def get_epiclive_data():
     print("scrap giet epiclive data")
     request_url = "https://www.epicliveservices.com/attendance/?enrollment__course__course_title" \
                   "=&enrollment__student__last_name=&enrollment__student__first_name" \
                   "=&enrollment__student__regular_teacher_email=Charl&attendance_type=&attendance_date= "
 
-    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
-    # driver = webdriver.Chrome(executable_path=path, options=options)
+    driver = webdriver.Chrome(executable_path=path, options=options)
     wait = WebDriverWait(driver, 30)
     login_url = "https://www.epicliveservices.com/admin/"
     # driver.get
@@ -132,11 +130,9 @@ def get_epiclive_data():
     response = {}
     return response
 
-
 def get_dream_box_data():
     # driver = webdriver.Firefox(executable_path=path, options=options)
-    # driver = webdriver.Chrome(executable_path=path, options=options)
-    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+    driver = webdriver.Chrome(executable_path=path, options=options)
     wait = WebDriverWait(driver, 30)
     login_url = "https://play.dreambox.com/dashboard/login/"
     a = str(seven_days()[0]).split()[0]
@@ -195,13 +191,12 @@ def get_dream_box_data():
     driver.close()
     return response
 
-# step 5 Reading Eggs
+#step 5 Reading Eggs
 def get_reading_eggs_data():
     # driver = webdriver.Firefox(executable_path=path, options=options)
-    # driver = webdriver.Chrome(executable_path=path, options=options)
-    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+    driver = webdriver.Chrome(executable_path=path, options=options)
 
-    wait = WebDriverWait(driver, delayTime)
+    wait = WebDriverWait(driver, 30)
     counter = 0
     response = {'data': {}}
 
@@ -238,7 +233,7 @@ def get_reading_eggs_data():
             counter += 1
 
     driver.get("https://sso.readingeggs.com/login")
-    # driver.implicitly_wait(10)
+    driver.implicitly_wait(10)
     elem = driver.find_element_by_name("username")
     elem.send_keys("charlotte.wood@epiccharterschools.org")
     elem = driver.find_element_by_name("password")
@@ -286,13 +281,12 @@ def get_reading_eggs_data():
     # print(response)
     return response
 
-# step 6 Reading Eggsexprss
+#step 6 Reading Eggspress
 def get_reading_eggspress_data():
     # driver = webdriver.Firefox(executable_path=path, options=options)
-    # driver = webdriver.Chrome(executable_path=path, options=options)
-    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+    driver = webdriver.Chrome(executable_path=path, options=options)
 
-    wait = WebDriverWait(driver, delayTime)
+    wait = WebDriverWait(driver, 30)
     # counter = 0
     response = {'data': {}}
 
@@ -318,7 +312,7 @@ def get_reading_eggspress_data():
         return response
 
     driver.get("https://sso.readingeggs.com/login")
-    # driver.implicitly_wait(10)
+    driver.implicitly_wait(10)
     elem = driver.find_element_by_name("username")
     elem.send_keys("charlotte.wood@epiccharterschools.org")
     elem = driver.find_element_by_name("password")
@@ -345,13 +339,12 @@ def get_reading_eggspress_data():
     # print(response)
     return response
 
-# step 7 Reading Math Seeds
+#step 7 Math Seeds
 def get_math_seeds():
     # driver = webdriver.Firefox(executable_path=path, options=options)
-    # driver = webdriver.Chrome(executable_path=path, options=options)
-    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+    driver = webdriver.Chrome(executable_path=path, options=options)
 
-    wait = WebDriverWait(driver, delayTime)
+    wait = WebDriverWait(driver, 30)
     # counter = 0
     response = {'data': {}}
 
@@ -379,7 +372,7 @@ def get_math_seeds():
         return response
 
     driver.get("https://sso.readingeggs.com/login")
-    # driver.implicitly_wait(10)
+    driver.implicitly_wait(10)
     elem = driver.find_element_by_name("username")
     elem.send_keys("charlotte.wood@epiccharterschools.org")
     elem = driver.find_element_by_name("password")
@@ -404,7 +397,6 @@ def get_math_seeds():
     driver.close()
     # print(response)
     return response
-    
 
 def get_learning_wood_data():
     if settings.CRAWLER_USE_FAKE_DATA:
@@ -412,9 +404,8 @@ def get_learning_wood_data():
         return Compass
 
     login_url = "https://www.thelearningodyssey.com"
-    # driver = webdriver.Chrome(executable_path=path, options=options)
-    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
-
+    # driver = webdriver.Firefox(executable_path=path, options=options)
+    driver = webdriver.Chrome(executable_path=path, options=options)
     wait = WebDriverWait(driver, 30)
     x = 'https://www.thelearningodyssey.com/InstructorAdmin/Dashboard.aspx?SessionID=75475339FFBE4B049F30C89AF326247F'
     driver.get(login_url)
@@ -485,129 +476,15 @@ def get_learning_wood_data():
     print(response)
     return response
 
-
-def get_my_on_data():
+#step 8 MyON by Minutes
+def get_my_on_by_minutes():
     print("scrape my on")
     if settings.CRAWLER_USE_FAKE_DATA:
         from gradebook.crawler_sample_data import MyONMinutesRead
         return MyONMinutesRead
 
     # driver = webdriver.Firefox(executable_path=path, options=options)
-    # driver = webdriver.Chrome(executable_path=path, options=options)
-    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
-
-
-
-    wait = WebDriverWait(driver, 30)
-    # https://clever.com/oauth/authorize?channel=clever&client_id=4c63c1cf623dce82caac&confirmed=true&redirect_uri=https%3A%2F%2Fclever.com%2Fin%2Fauth_callback&response_type=code&state=11cdc4173b1aecbbfb0adbb9a51fa44c6d42a0e52f53408c64532313295efc31&district_id=520a6793a9dd788a46000fdc
-    login_url = "https://clever.com/oauth/authorize?channel=clever&client_id" \
-                "=4c63c1cf623dce82caac&confirmed=true" \
-                "&redirect_uri=https%3A%2F%2Fclever.com%2Fin%2Fauth_callback&response_type=code&state" \
-                "=11cdc4173b1aecbbfb0adbb9a51fa44c6d42a0e52f53408c64532313295efc31&district_id" \
-                "=520a6793a9dd788a46000fdc"
-                
-    driver.get(login_url)
-    driver.implicitly_wait(30)
-    elem = driver.find_element_by_xpath('//*[@id="react-server-root"]/div/div[2]/div[1]/a[1]')
-    elem.click()
-    driver.implicitly_wait(30)
-
-    try:
-        wait.until(
-            EC.presence_of_element_located((By.ID, "identifierId"))
-        )
-
-        # force google to english regardless of server location
-        # check for url has hl=en if not, replace hl=[a-z]{,2} to hl=en in url, refresh page and wait until again (just once)
-        if 'hl=en' not in driver.current_url:
-            if "hl=" in driver.current_url: # replace if exists
-                new_url = re.sub(r'hl=[a-z]+', 'hl=en', driver.current_url) 
-            else:
-                new_url = driver.current_url + "&hl=en"
-
-            driver.get(new_url)
-            wait.until(
-                EC.presence_of_element_located((By.ID, "identifierId"))
-            )
-
-    except selenium.common.exceptions.TimeoutException:
-        print('enter here')
-
-    elem = driver.find_element_by_xpath('//*[@id="identifierId"]')
-    elem.send_keys("charlotte.wood@epiccharterschools.org")
-    elem = driver.find_element_by_xpath('//*[@id="identifierNext"]/span/span')
-    elem.click()
-
-    wait.until(
-        EC.visibility_of_element_located((By.NAME, "password"))
-    )
-    elem = driver.find_element_by_name('password')
-    elem.send_keys('Principal1234!')
-    wait.until(
-        EC.element_to_be_clickable((By.XPATH, "//span[text()='Next']")))
-
-    elm = driver.find_element_by_xpath("//span[text()='Next']")
-    elm.click()
-
-    wait.until(
-        EC.presence_of_element_located((By.ID, "__MAIN_APP__"))
-    )
-    driver.get(
-        'https://clever.com/oauth/authorize?channel=clever-portal&client_id=e9883f835c1c58894763&confirmed=true'
-        '&district_id=520a6793a9dd788a46000fdc&redirect_uri=https%3A%2F%2Fwww.myon.com%2Fapi%2Foauth%2Fsso.html'
-        '%3Ainstantlogin&response_type=code')
-
-    wait.until(
-        EC.element_to_be_clickable((By.XPATH, '/html/body/div[2]/main/div[1]/div/div[1]/select')))
-
-    # sleep(3)
-    select = driver.find_element_by_xpath('/html/body/div[2]/main/div[1]/div/div[1]/select/option[text()=\'Time spent reading\']')
-    select.click()
-    # sleep(5)
-    wait.until(
-        EC.presence_of_element_located((By.XPATH, '//*[@id="student-table"]/div[6]/div[2]/table/tbody'))
-    )
-
-    # beware this doesn't always work if 'Time spent reading' selection above fails 
-    elem = driver.find_element(By.XPATH, '//*[@id="student-table"]/div[6]/div[2]/table/tbody')
-
-    # sleep(5)
-    tml = elem.get_attribute('innerHTML')
-    soup = BeautifulSoup(tml, 'html.parser')
-    trs = soup.find_all("tr")
-    response = {'data': {}}
-    count = 0
-    for tr in trs:
-        previous = tr.find('div', attrs={'class': 'pc-previous-label'}).text.strip().split(' ')
-        current = tr.find('div', attrs={'class': 'pc-current-label'}).text.strip().split(' ')
-        response['data'][count] = {'first_name': tr.find_all('a')[0].text.strip(),
-                                   "last_name": tr.find_all('a')[1].text.strip(),
-                                   'previous': int(previous[-2]) if len(previous) == 2 else 60 + int(previous[-2]),
-                                   'current': int(current[-2]) if len(current) == 2 else 60 + int(current[-2])
-                                   }
-        count += 1
-    response['status_code'] = '100'
-    response['message'] = "pulled successfully"
-    response['site'] = 'MyON'
-    current_date = seven_days()
-    response['date_start'] = current_date[0]
-    response['date_end'] = current_date[1]
-    if not response['data']:
-        response['status_code'] = '115',
-        response['message'] = 'data could not be pulled'
-    driver.close()
-    print(response)
-    return response
-# step8
-def get_my_on_by_minutes():
-    print("scrape my on")
-    # if settings.CRAWLER_USE_FAKE_DATA:
-    #     from gradebook.crawler_sample_data import MyONMinutesRead
-    #     return MyONMinutesRead
-
-    # driver = webdriver.Firefox(executable_path=path, options=options)
-    # driver = webdriver.Chrome(executable_path=path, options=options)
-    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+    driver = webdriver.Chrome(executable_path=path, options=options)
     wait = WebDriverWait(driver, delayTime)
     # https://clever.com/oauth/authorize?channel=clever&client_id=4c63c1cf623dce82caac&confirmed=true&redirect_uri=https%3A%2F%2Fclever.com%2Fin%2Fauth_callback&response_type=code&state=11cdc4173b1aecbbfb0adbb9a51fa44c6d42a0e52f53408c64532313295efc31&district_id=520a6793a9dd788a46000fdc
     login_url = "https://clever.com/oauth/authorize?channel=clever&client_id" \
@@ -658,7 +535,6 @@ def get_my_on_by_minutes():
 
     elm = driver.find_element_by_xpath("//*[@id='signIn']")
     elm.click()
-
 
     wait.until(
         EC.presence_of_element_located((By.ID, "__MAIN_APP__"))
@@ -715,14 +591,13 @@ def get_my_on_by_minutes():
 #step 9 MyON Books Finished
 def get_my_on_books_finished():
     print("scrape my on reading books")
-    # if settings.CRAWLER_USE_FAKE_DATA:
-    #     from gradebook.crawler_sample_data import MyONMinutesRead
-    #     return MyONMinutesRead
+    if settings.CRAWLER_USE_FAKE_DATA:
+        from gradebook.crawler_sample_data import MyONMinutesRead
+        return MyONMinutesRead
 
     # driver = webdriver.Firefox(executable_path=path, options=options)
-    # driver = webdriver.Chrome(executable_path=path, options=options)
-    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
-    wait = WebDriverWait(driver, delayTime)
+    driver = webdriver.Chrome(executable_path=path, options=options)
+    wait = WebDriverWait(driver, 30)
     # https://clever.com/oauth/authorize?channel=clever&client_id=4c63c1cf623dce82caac&confirmed=true&redirect_uri=https%3A%2F%2Fclever.com%2Fin%2Fauth_callback&response_type=code&state=11cdc4173b1aecbbfb0adbb9a51fa44c6d42a0e52f53408c64532313295efc31&district_id=520a6793a9dd788a46000fdc
     login_url = "https://clever.com/oauth/authorize?channel=clever&client_id" \
                 "=4c63c1cf623dce82caac&confirmed=true" \
@@ -731,10 +606,10 @@ def get_my_on_books_finished():
                 "=520a6793a9dd788a46000fdc"
                 
     driver.get(login_url)
-    # driver.implicitly_wait(30)
+    driver.implicitly_wait(30)
     elem = driver.find_element_by_xpath('//*[@id="react-server-root"]/div/div[2]/div[1]/a[1]')
     elem.click()
-    # driver.implicitly_wait(30)
+    driver.implicitly_wait(30)
 
     try:
         wait.until(
@@ -785,10 +660,10 @@ def get_my_on_books_finished():
     wait.until(
         EC.element_to_be_clickable((By.XPATH, '/html/body/div[2]/main/div[1]/div/div[1]/select')))
 
-    # sleep(3)
+    sleep(3)
     select = driver.find_element_by_xpath('/html/body/div[2]/main/div[1]/div/div[1]/select/option[text()=\'Books finished\']')
     select.click()
-    # sleep(5)
+    sleep(5)
     wait.until(
         EC.presence_of_element_located((By.XPATH, '//*[@id="student-table"]/div[8]/div[2]/table/tbody'))
     )
@@ -796,7 +671,7 @@ def get_my_on_books_finished():
     # beware this doesn't always work if 'Time spent reading' selection above fails 
     elem = driver.find_element(By.XPATH, '//*[@id="student-table"]/div[8]/div[2]/table/tbody')
 
-    # sleep(5)
+    sleep(5)
     tml = elem.get_attribute('innerHTML')
     soup = BeautifulSoup(tml, 'html.parser')
     trs = soup.find_all("tr")
@@ -824,151 +699,6 @@ def get_my_on_books_finished():
     print(response)
     return response
 
-#step 10 Success Maker
-def get_success_maker():
-    print("scraping www.thelearningodyssey.com")
-    # driver = webdriver.Firefox(executable_path=path, options=options)
-    # driver = webdriver.Chrome(executable_path=path, options=options)
-    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
-    wait = WebDriverWait(driver, delayTime)
-    login_url = "https://epicyouth0140.smhost.net/lms/sm.view?headless=1&action=home"
-    # a = str(seven_days()[0]).split()[0]
-    # b = str(seven_days()[1]).split()[0]
-
-    # a = "".join(a.split('-'))
-    # b = "".join(b.split('-'))
-    #https://insight.dreambox.com/district/19207/classroom/1850338?schoolId=47805&teacherId=12317771&breadcrumbs=d,sc,t,c&pane=overview&order=asc&sort=first_name&timeframe=fd2019110td20191109&timeframeId=custom&by=week
-    # request_url = "https://insight.dreambox.com/district/19207/classroom/1850338?schoolId=47805&teacherId=12317771" \
-    #               "&breadcrumbs=d,sc,t,c&pane=overview&order=asc&sort=first_name&timeframe=fd" + a + "td" + b + \
-    #               "&timeframeId=custom&by=week "
-    driver.get(login_url)
-    main_page = driver.current_window_handle 
-    # driver.implicitly_wait(10)
-    elem = driver.find_element_by_id("user")
-    elem.send_keys("charlotte.wood")
-    elem = driver.find_element_by_id("login")
-    elem.send_keys("Pa55word")
-    elem = driver.find_element_by_class_name("loginBtn")
-    elem.click()
-
-    # sleep(10)
-
-    # provide visibility to non-popup window by hiding the other (do not close since it breaks the session)
-    # window_before = driver.window_handles[0]
-    # window_after = driver.window_handles[1]
-    # driver.switch_to_window(window_after)
-    # driver.set_window_size(0, 0)
-    # driver.switch_to_window(window_before)
-
-    # session_id = driver.get_cookie('SessionID')['value']
-    # dashboard_url = 'https://www.thelearningodyssey.com/InstructorAdmin/Dashboard.aspx?SessionID={}'.format(session_id)
-    # driver.get(dashboard_url)
-    # driver.get('https://www.thelearningodyssey.com/Assignments/CourseManager.aspx')
-    # sleep(5.0)
-    # wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[6]/div[2]/div/div/div/div/table/tbody/tr[2]/td/div")))
-    wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[3]/div[2]/div/div/div/div[5]/div/div[1]/div/div/div/div[1]/div/form/table/tbody/tr[2]/td/table/tbody/tr/td[1]/div")))
-
-    # sleep(2)
-
-
-
-    # elem = driver.find_element_by_xpath('/html/body/div[6]/div[2]/div/div/div/div/table/tbody/tr[2]/td/div]').click()
-    driver.find_elements_by_xpath('/html/body/div[3]/div[2]/div/div/div/div[5]/div/div[1]/div/div/div/div[1]/div/form/table/tbody/tr[2]/td/table/tbody/tr/td[1]/div').click()
-    
-    # elem1 = elem.find_element_by_xpath("//table[@id = isc_8Atable]/tbody/tr[2]/td/div").click()
-
-    driver.find_element_by_xpath("//input[@id=isc_AG]").click()
-
-    # sleep(5)
-
-    curdate = seven_days()
-
-    startDate = curdate[0].strftime('%m/%d/%Y')
-    endDate = curdate[0].strftime('%m/%d/%Y')
-
-    driver.find_element_by_xpath("//input[@id=isc_AP]").send_keys(startDate)
-    driver.find_element_by_xpath("//input[@id=isc_Au]").send_keys(endDate)
-
-    driver.find_element_by_xpath("//div[@id = 'isc_96']/table/tbody/tr/td").click()
-
-    # sleep(10)
-
-    window_before = driver.window_handles[0]
-    window_after = driver.window_handles[1]
-    driver.switch_to_window(window_after)    
-
-    doc = driver.find_elements_by_xpath('//div[@id = "Document"]/div/div/table/tbody/tr/td/table/tbody')
-    response = {'data':{}}
-    soup = BeautifulSoup(driver.page_source, 'html.parser')
-    table_body = soup.find('tbody')
-    trs = table_body.find_all('tr')
-    for tr in range(9, len(trs)):
-        tds = trs[tr].find_all('td')
-        full_name = tds[1].find_element('div').text.strip().split(' ')
-        time_spent_str = tds[6].find_element('div').text.strip().split(":")
-        time_spent = int(time_spent_str[0]) * 60 + int(time_spent_str[1])
-        response['data'][counter] = {'first_name': full_name[0],
-                                        'last_name': full_name[1],
-                                        'time_spent': time_spent}
-                                    #  'attendance': int(tds[3].text.strip().replace('-', '0')),
-                                    #  'average_score': int(tds[4].text.strip().replace('-', '0').replace('%', ''))}
-        counter = counter + 1
-
-
-
-    # elem.click()
-    # wait.until(EC.presence_of_element_located((By.ID, "Tr1")))
-    # like = [item.get_attribute('onclick').split("(")[1].split(')')[0] for item in
-    #         driver.find_elements_by_class_name('gbIcon')]
-
-    # response = {'data': {}}
-    # count = 0
-    # for x in range(0, len(like)):
-    #     url = "https://www.thelearningodyssey.com/Assignments/Gradebook.aspx?courseid=" + like[x]
-    #     driver.get(url)
-    #     wait.until(
-    #         EC.presence_of_element_located((By.ID, "dialog"))
-    #     )
-    #     # kk = driver.find_element_by_id('titleSubstitution')
-    #     # if driver.find_element_by_id('titleSubstitution') == null:
-    #     #     continue
-    #     dialog = driver.find_element_by_id('dialog')
-    #     completions = dialog.find_elements_by_class_name('done')
-    #     if len(completions) <= 1:
-    #         continue
-    #     scores = driver.find_elements_by_class_name('score')
-    #     names = driver.find_elements_by_class_name('studentName')
-    #     title_text = driver.find_element_by_id('titleSubstitution').text
-    #     for i in range(1, len(completions)):
-    #         name = names[i - 1].get_attribute('innerHTML')
-    #         full_title_split = title_text.split('-')[1].replace(' GRADE ', '').replace('Semester ','').split(' ')
-    #         response['data'][count] = {'first_name': name.split(",")[1].split()[0],
-    #                                    'last_name': name.split(",")[0],
-    #                                    'course_name':title_text,
-    #                                    "course_grade": int(scores[i * 2].get_attribute('innerHTML').replace("%", '').replace('--', '0').replace('-', '')),
-    #                                 #    'completion': int(completions[i].get_attribute('innerHTML').replace("%", '').replace('-', '0')),
-    #                                 #    'title': full_title_split[-1],
-    #                                 #    'subject': full_title_split[1],
-    #                                 #    'grade_level': full_title_split[0],
-    #                                    }
-
-    #         count = count + 1
-    response['status_code'] = '100'
-    response['message'] = 'pulled successfully'
-    response['title'] = 'Success Maker'
-    response['site'] = 'Success Maker'
-    current_date = seven_days()
-    response['date_start'] = current_date[0]
-    response['date_end'] = current_date[1]
-    if not response['data']:
-        response['message'] = 'The data could not be pulled'
-        response['status_code'] = '204'
-    driver.quit()
-    # print(response)
-    return response
-
-
-
 def get_all_data():
     a = get_epiclive_data()
     b = get_dream_box_data()
@@ -984,9 +714,8 @@ def get_all_data():
 
 def get_dreambox_minutes():
     print("get_dreambox_minutes")
-    # driver = webdriver.Chrome(executable_path=path, options=options)
-    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
-
+    # driver = webdriver.Firefox(executable_path=path, options=options)
+    driver = webdriver.Chrome(executable_path=path, options=options)
     wait = WebDriverWait(driver, 30)
     login_url = "https://play.dreambox.com/dashboard/login/"
     a = str(seven_days()[0]).split()[0]
@@ -1020,7 +749,7 @@ def get_dreambox_minutes():
         
     def wait_between(a,b):
         rand=uniform(a, b) 
-        # sleep(rand)
+        sleep(rand)
     
     def dimention(driver): 
         d = int(driver.find_element_by_xpath('//div[@id="rc-imageselect-target"]/table').get_attribute("class")[-1])
@@ -1152,14 +881,13 @@ def get_dreambox_minutes():
         response = {'status_code': '204', 'message': 'record not found', 'site': 'Dream Box'}
     driver.close()
     return response
-
-def get_compass():
+    #step 10 Success Maker
+def get_success_maker():
     print("scraping www.thelearningodyssey.com")
-    # driver = webdriver.Chrome(executable_path=path, options=options)
-    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
-
+    # driver = webdriver.Firefox(executable_path=path, options=options)
+    driver = webdriver.Chrome(executable_path=path, options=options)
     wait = WebDriverWait(driver, 30)
-    login_url = "https://www.thelearningodyssey.com/"
+    login_url = "https://epicyouth0140.smhost.net/lms/sm.view?headless=1&action=home"
     # a = str(seven_days()[0]).split()[0]
     # b = str(seven_days()[1]).split()[0]
 
@@ -1172,6 +900,148 @@ def get_compass():
     driver.get(login_url)
     main_page = driver.current_window_handle 
     driver.implicitly_wait(10)
+    elem = driver.find_element_by_id("user")
+    elem.send_keys("charlotte.wood")
+    elem = driver.find_element_by_id("login")
+    elem.send_keys("Pa55word")
+    elem = driver.find_element_by_class_name("loginBtn")
+    elem.click()
+
+    sleep(10)
+
+    # provide visibility to non-popup window by hiding the other (do not close since it breaks the session)
+    # window_before = driver.window_handles[0]
+    # window_after = driver.window_handles[1]
+    # driver.switch_to_window(window_after)
+    # driver.set_window_size(0, 0)
+    # driver.switch_to_window(window_before)
+
+    # session_id = driver.get_cookie('SessionID')['value']
+    # dashboard_url = 'https://www.thelearningodyssey.com/InstructorAdmin/Dashboard.aspx?SessionID={}'.format(session_id)
+    # driver.get(dashboard_url)
+    # driver.get('https://www.thelearningodyssey.com/Assignments/CourseManager.aspx')
+    sleep(5.0)
+    # wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[6]/div[2]/div/div/div/div/table/tbody/tr[2]/td/div")))
+    wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[3]/div[2]/div/div/div/div[5]/div/div[1]/div/div/div/div[1]/div/form/table/tbody/tr[2]/td/table/tbody/tr/td[1]/div")))
+
+    sleep(2)
+
+
+
+    # elem = driver.find_element_by_xpath('/html/body/div[6]/div[2]/div/div/div/div/table/tbody/tr[2]/td/div]').click()
+    driver.find_elements_by_xpath('/html/body/div[3]/div[2]/div/div/div/div[5]/div/div[1]/div/div/div/div[1]/div/form/table/tbody/tr[2]/td/table/tbody/tr/td[1]/div').click()
+    
+    # elem1 = elem.find_element_by_xpath("//table[@id = isc_8Atable]/tbody/tr[2]/td/div").click()
+
+    driver.find_element_by_xpath("//input[@id=isc_AG]").click()
+
+    sleep(5)
+
+    curdate = seven_days()
+
+    startDate = curdate[0].strftime('%m/%d/%Y')
+    endDate = curdate[0].strftime('%m/%d/%Y')
+
+    driver.find_element_by_xpath("//input[@id=isc_AP]").send_keys(startDate)
+    driver.find_element_by_xpath("//input[@id=isc_Au]").send_keys(endDate)
+
+    driver.find_element_by_xpath("//div[@id = 'isc_96']/table/tbody/tr/td").click()
+
+    sleep(10)
+
+    window_before = driver.window_handles[0]
+    window_after = driver.window_handles[1]
+    driver.switch_to_window(window_after)    
+
+    doc = driver.find_elements_by_xpath('//div[@id = "Document"]/div/div/table/tbody/tr/td/table/tbody')
+    response = {'data':{}}
+    soup = BeautifulSoup(driver.page_source, 'html.parser')
+    table_body = soup.find('tbody')
+    trs = table_body.find_all('tr')
+    for tr in range(9, len(trs)):
+        tds = trs[tr].find_all('td')
+        full_name = tds[1].find_element('div').text.strip().split(' ')
+        time_spent_str = tds[6].find_element('div').text.strip().split(":")
+        time_spent = int(time_spent_str[0]) * 60 + int(time_spent_str[1])
+        response['data'][counter] = {'first_name': full_name[0],
+                                        'last_name': full_name[1],
+                                        'time_spent': time_spent}
+                                    #  'attendance': int(tds[3].text.strip().replace('-', '0')),
+                                    #  'average_score': int(tds[4].text.strip().replace('-', '0').replace('%', ''))}
+        counter = counter + 1
+
+
+
+    # elem.click()
+    # wait.until(EC.presence_of_element_located((By.ID, "Tr1")))
+    # like = [item.get_attribute('onclick').split("(")[1].split(')')[0] for item in
+    #         driver.find_elements_by_class_name('gbIcon')]
+
+    # response = {'data': {}}
+    # count = 0
+    # for x in range(0, len(like)):
+    #     url = "https://www.thelearningodyssey.com/Assignments/Gradebook.aspx?courseid=" + like[x]
+    #     driver.get(url)
+    #     wait.until(
+    #         EC.presence_of_element_located((By.ID, "dialog"))
+    #     )
+    #     # kk = driver.find_element_by_id('titleSubstitution')
+    #     # if driver.find_element_by_id('titleSubstitution') == null:
+    #     #     continue
+    #     dialog = driver.find_element_by_id('dialog')
+    #     completions = dialog.find_elements_by_class_name('done')
+    #     if len(completions) <= 1:
+    #         continue
+    #     scores = driver.find_elements_by_class_name('score')
+    #     names = driver.find_elements_by_class_name('studentName')
+    #     title_text = driver.find_element_by_id('titleSubstitution').text
+    #     for i in range(1, len(completions)):
+    #         name = names[i - 1].get_attribute('innerHTML')
+    #         full_title_split = title_text.split('-')[1].replace(' GRADE ', '').replace('Semester ','').split(' ')
+    #         response['data'][count] = {'first_name': name.split(",")[1].split()[0],
+    #                                    'last_name': name.split(",")[0],
+    #                                    'course_name':title_text,
+    #                                    "course_grade": int(scores[i * 2].get_attribute('innerHTML').replace("%", '').replace('--', '0').replace('-', '')),
+    #                                 #    'completion': int(completions[i].get_attribute('innerHTML').replace("%", '').replace('-', '0')),
+    #                                 #    'title': full_title_split[-1],
+    #                                 #    'subject': full_title_split[1],
+    #                                 #    'grade_level': full_title_split[0],
+    #                                    }
+
+    #         count = count + 1
+    response['status_code'] = '100'
+    response['message'] = 'pulled successfully'
+    response['title'] = 'Success Maker'
+    response['site'] = 'Success Maker'
+    current_date = seven_days()
+    response['date_start'] = current_date[0]
+    response['date_end'] = current_date[1]
+    if not response['data']:
+        response['message'] = 'The data could not be pulled'
+        response['status_code'] = '204'
+    driver.quit()
+    # print(response)
+    return response
+
+#step 4 Compass
+def get_compass():
+    print("scraping www.thelearningodyssey.com")
+    # driver = webdriver.Firefox(executable_path=path, options=options)
+    driver = webdriver.Chrome(executable_path=path, options=options)
+    wait = WebDriverWait(driver, delayTime)
+    login_url = "https://www.thelearningodyssey.com/"
+    # a = str(seven_days()[0]).split()[0]
+    # b = str(seven_days()[1]).split()[0]
+
+    # a = "".join(a.split('-'))
+    # b = "".join(b.split('-'))
+    #https://insight.dreambox.com/district/19207/classroom/1850338?schoolId=47805&teacherId=12317771&breadcrumbs=d,sc,t,c&pane=overview&order=asc&sort=first_name&timeframe=fd2019110td20191109&timeframeId=custom&by=week
+    # request_url = "https://insight.dreambox.com/district/19207/classroom/1850338?schoolId=47805&teacherId=12317771" \
+    #               "&breadcrumbs=d,sc,t,c&pane=overview&order=asc&sort=first_name&timeframe=fd" + a + "td" + b + \
+    #               "&timeframeId=custom&by=week "
+    driver.get(login_url)
+    main_page = driver.current_window_handle 
+    # driver.implicitly_wait(10)
     elem = driver.find_element_by_id("UserNameEntry")
     elem.send_keys("charlotte.wood")
     elem = driver.find_element_by_id("UserPasswordEntry")
@@ -1187,6 +1057,8 @@ def get_compass():
     # provide visibility to non-popup window by hiding the other (do not close since it breaks the session)
     window_before = driver.window_handles[0]
     window_after = driver.window_handles[1]
+    print("windows pass")
+    print(len(driver.window_handles))
     driver.switch_to_window(window_after)
     driver.set_window_size(0, 0)
     driver.switch_to_window(window_before)
@@ -1327,6 +1199,100 @@ def get_compass():
     # print(response)
     # return response
 
+def get_homework_help():
+    print("scraping www.thelearningodyssey.com")
+    # driver = webdriver.Firefox(executable_path=path, options=options)
+    driver = webdriver.Chrome(executable_path=path, options=options)
+    wait = WebDriverWait(driver, delayTime)
+    login_url = "http://homeworkhelp.epiccharterschools.org/"
+    # a = str(seven_days()[0]).split()[0]
+    # b = str(seven_days()[1]).split()[0]
+
+    # a = "".join(a.split('-'))
+    # b = "".join(b.split('-'))
+    #https://insight.dreambox.com/district/19207/classroom/1850338?schoolId=47805&teacherId=12317771&breadcrumbs=d,sc,t,c&pane=overview&order=asc&sort=first_name&timeframe=fd2019110td20191109&timeframeId=custom&by=week
+    # request_url = "https://insight.dreambox.com/district/19207/classroom/1850338?schoolId=47805&teacherId=12317771" \
+    #               "&breadcrumbs=d,sc,t,c&pane=overview&order=asc&sort=first_name&timeframe=fd" + a + "td" + b + \
+    #               "&timeframeId=custom&by=week "
+    driver.get(login_url)
+    main_page = driver.current_window_handle 
+    # driver.implicitly_wait(10)
+    elem = driver.find_element_by_id("USER_NAME")
+    elem.send_keys("charlotte.wood")
+    elem = driver.find_element_by_id("Password")
+    elem.send_keys("Pa55word")
+    elem = driver.find_element_by_name("SchoolNameEntry")
+    elem.clear()
+    elem.send_keys("EPIC")
+    elem = driver.find_element_by_id("log")
+    elem.click()
+
+    # sleep(10)
+
+    # provide visibility to non-popup window by hiding the other (do not close since it breaks the session)
+    window_before = driver.window_handles[0]
+    window_after = driver.window_handles[1]
+    print("windows pass")
+    print(len(driver.window_handles))
+    driver.switch_to_window(window_after)
+    driver.set_window_size(0, 0)
+    driver.switch_to_window(window_before)
+
+    session_id = driver.get_cookie('SessionID')['value']
+    dashboard_url = 'https://www.thelearningodyssey.com/InstructorAdmin/Dashboard.aspx?SessionID={}'.format(session_id)
+    driver.get(dashboard_url)
+    driver.get('https://www.thelearningodyssey.com/Assignments/CourseManager.aspx')
+    # sleep(5.0)
+    elem = driver.find_element_by_xpath('//*[@id="CourseManagerTree1t5"]')
+    elem.click()
+    wait.until(EC.presence_of_element_located((By.ID, "Tr1")))
+    like = [item.get_attribute('onclick').split("(")[1].split(')')[0] for item in
+            driver.find_elements_by_class_name('gbIcon')]
+
+    response = {'data': {}}
+    count = 0
+    for x in range(0, len(like)):
+        url = "https://www.thelearningodyssey.com/Assignments/Gradebook.aspx?courseid=" + like[x]
+        driver.get(url)
+        wait.until(
+            EC.presence_of_element_located((By.ID, "dialog"))
+        )
+        # kk = driver.find_element_by_id('titleSubstitution')
+        # if driver.find_element_by_id('titleSubstitution') == null:
+        #     continue
+        dialog = driver.find_element_by_id('dialog')
+        completions = dialog.find_elements_by_class_name('done')
+        if len(completions) <= 1:
+            continue
+        scores = driver.find_elements_by_class_name('score')
+        names = driver.find_elements_by_class_name('studentName')
+        title_text = driver.find_element_by_id('titleSubstitution').text
+        for i in range(1, len(completions)):
+            name = names[i - 1].get_attribute('innerHTML')
+            full_title_split = title_text.split('-')[1].replace(' GRADE ', '').replace('Semester ','').split(' ')
+            response['data'][count] = {'first_name': name.split(",")[1].split()[0],
+                                       'last_name': name.split(",")[0],
+                                       'course_name':title_text,
+                                       "course_grade": int(scores[i * 2].get_attribute('innerHTML').replace("%", '').replace('--', '0').replace('-', '')),
+                                    #    'completion': int(completions[i].get_attribute('innerHTML').replace("%", '').replace('-', '0')),
+                                    #    'title': full_title_split[-1],
+                                    #    'subject': full_title_split[1],
+                                    #    'grade_level': full_title_split[0],
+                                       }
+
+            count = count + 1
+    response['status_code'] = '100'
+    response['message'] = 'pulled successfully'
+    response['site'] = 'Compass'
+    current_date = seven_days()
+    response['date_start'] = current_date[0]
+    response['date_end'] = current_date[1]
+    if not response['data']:
+        response['message'] = 'The data could not be pulled'
+        response['status_code'] = '204'
+    driver.quit()
+    # print(response)
+    return response
 
 
 

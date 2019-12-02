@@ -1,1 +1,1 @@
-web: gunicorn gradebook.wsgi --workers=1 --timeout=1200 --keep-alive 1 --log-level debug --threads 1 --worker-connections 1000 --graceful-timeout 20 --max-requests 1
+web: gunicorn gradebook.wsgi 

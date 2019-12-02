@@ -65,7 +65,7 @@ class Curriculum(models.Model):
              ("Supplemental", "Supplemental"),
              ]
 
-    name = models.CharField(max_length=150, null=False)
+    name = models.CharField(max_length=50, null=False)
     subject = models.CharField(max_length=30, choices=SUBJECT)
     grade_level = models.CharField(max_length=20, choices=CURRICULUMGRADE, null=False)
 
@@ -153,8 +153,7 @@ class Student(models.Model):
     grade = models.CharField(max_length=20, choices=GRADELEVEL, null=False)
     curriculum = models.ForeignKey('curriculum', null=True, blank=True, on_delete=models.SET_NULL)
     teacher_email = models.CharField(max_length=75, null=False)
-    birthdate = models.DateField(max_length=30, null=True)
-    goog_calendar = models.CharField(max_length=200, null=True)
+    birthdate = models.CharField(max_length=30, null=True)
 
     def get_absolute_url(self):
         return f"/students/{self.epicenter_id}"
@@ -475,8 +474,8 @@ class GradeBook(models.Model):
         Curriculum, on_delete=models.CASCADE, related_name="curriculum_grade",
     )
     academic_semester = models.CharField(max_length=16)
-    complete = models.IntegerField(null=True,blank=True) 
-    #required = models.CharField(max_length=20, null=False, default='true')
+    complete = models.CharField(max_length=20, null=False, default='true')
+    required = models.CharField(max_length=20, null=False, default='true')
     quarter = models.CharField(max_length=1, choices=QUARTER, null=False)
     week = models.CharField(max_length=2, choices=WEEK, null=False)
     grade = models.IntegerField(null=False)
@@ -494,21 +493,6 @@ class GradeBook(models.Model):
     def get_edit_url(self):
         return f"/grades-record-manual-edit/{self.pk}/"
 
-    def get_required(self):
-        enr = self.get_enrollment()
-        if enr and enr.required != None:
-            return enr.required
-        return "n/a"
-
-    def get_enrollment(self):
-        asem = self.academic_semester
-        student = self.student
-        curriculum = self.curriculum
-        enr = Enrollment.objects.filter(academic_semester=asem, student=student, curriculum=curriculum)
-        if enr.count() == 1:
-            return enr[0] 
-        return None
-
     def __str__(self):
         return "%s %s" % (self.pk, self.grade)
 
@@ -521,9 +505,6 @@ class Teacher(models.Model):
     email = models.CharField(max_length=75, null=False)
     zoom = models.CharField(max_length=75, null=True)
     syllabus = models.CharField(max_length=75, null=True)
-    principal_email = models.CharField(max_length=75, null=True)
-    phone = models.CharField(max_length=75, null=True)
-
 
     class Meta:
         unique_together = ("first_name", "last_name", "email")
@@ -546,7 +527,7 @@ class ExemptAssignment(models.Model):
         verbose_name_plural = "Exempt Assignments"
 
     student = models.ForeignKey('student', null=True, blank=True, on_delete=models.SET_NULL)
-    assignments = models.ManyToManyField('assignment', blank=True)
+    assignments = models.ManyToManyField('assignment', null=True, blank=True)
 
     def __str__(self):
         return "# {} - {}".format(self.pk, self.student)
