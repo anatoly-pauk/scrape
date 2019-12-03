@@ -18,13 +18,13 @@ from django.conf import settings
 # import org.openqa.selenium.WebElement;
 
 
-# options = Options()
+options = Options()
 
-options = webdriver.ChromeOptions()
+# options = webdriver.ChromeOptions()
 options.add_argument("--headless")
 options.add_argument("--disable-dev-shm-usage")
 options.add_argument("--no-sandbox")
-path = os.getcwd() + '/mygrades/chromedriver'
+path = os.getcwd() + '/mygrades/geckodriver1'
 # path = './chromedriver'
 
 counter = 0
@@ -193,8 +193,9 @@ def get_dream_box_data():
 
 #step 5 Reading Eggs
 def get_reading_eggs_data():
-    # driver = webdriver.Firefox(executable_path=path, options=options)
-    driver = webdriver.Chrome(executable_path=path, options=options)
+    driver = webdriver.Firefox(executable_path=path, options=options)
+    # driver = webdriver.Chrome(executable_path=path, options=options)
+    
 
     wait = WebDriverWait(driver, 30)
     counter = 0
@@ -283,8 +284,8 @@ def get_reading_eggs_data():
 
 #step 6 Reading Eggspress
 def get_reading_eggspress_data():
-    # driver = webdriver.Firefox(executable_path=path, options=options)
-    driver = webdriver.Chrome(executable_path=path, options=options)
+    driver = webdriver.Firefox(executable_path=path, options=options)
+    # driver = webdriver.Chrome(executable_path=path, options=options)
 
     wait = WebDriverWait(driver, 30)
     # counter = 0
