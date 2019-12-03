@@ -344,6 +344,7 @@ def get_reading_eggs_data():
             # response = {'data': {}}
             counter = 0
             try:
+                print("get data")
                 driver.get(link)
                 try:
                     wait.until(
