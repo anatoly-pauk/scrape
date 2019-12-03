@@ -40,155 +40,173 @@ def seven_days():
     startdate = a - datetime.timedelta(days=startdate)
     return (datetime.datetime(startdate.year, startdate.month, startdate.day, startdate.weekday()),
             datetime.datetime(date.year, date.month, date.day, startdate.weekday()))
-
+# step3 
 def get_epiclive_data():
     print("scrap giet epiclive data")
     request_url = "https://www.epicliveservices.com/attendance/?enrollment__course__course_title" \
                   "=&enrollment__student__last_name=&enrollment__student__first_name" \
                   "=&enrollment__student__regular_teacher_email=Charl&attendance_type=&attendance_date= "
 
+    response = {'data':{}}
+    items = ['first_name', 'last_name','present', 'absent']
     driver = webdriver.Chrome(executable_path=path, options=options)
-    wait = WebDriverWait(driver, 30)
-    login_url = "https://www.epicliveservices.com/admin/"
-    # driver.get
-    driver.get(login_url)
-    driver.implicitly_wait(10)
-    elem = driver.find_element_by_name("username")
-    elem.send_keys("charlotte.wood")
-    elem = driver.find_element_by_name("password")
-    elem.send_keys("Pa55word!")
-    # elem = driver.find_elements_by_tag_name("input")
-    # elem = driver.findElement(By.XPATH("//*[text()='Log in']"))
-    driver.implicitly_wait(10)
-    elem1 = driver.find_element_by_xpath("//div[@class='submit-row']//input")
-    # for i = 
-    # .text("Log in")
-    elem1.click()
-    driver.implicitly_wait(30)
-
-    # r = requests.get("https://www.epicliveservices.com/admin/login")
-    # content = r.content
-    # soup = BeautifulSoup(content, 'html.parser')
-    # inputs = soup.find('input')['value']
-    # param = soup.findAll('input')[-2]['value']
-    # payload = {'username': 'charlotte.wood',
-    #            'password': "Pa55word!",
-    #            'csrfmiddlewaretoken': inputs, "next": param}
-    # with requests.Session() as sess:
-    #     sess.post('https://www.epicliveservices.com/admin/login/?next=/admin/', data=payload,
-    #               headers={'referer': 'https://www.epicliveservices.com/admin/login',
-    #                        'X-CSRF-Token': inputs, },
-    #               cookies=r.cookies)
-    #     p = sess.get(request_url,
-    #                  headers={'referer': 'https://www.epicliveservices.com/admin/',
-    #                           'X-CSRF-Token': inputs, },
-    #                  cookies=r.cookies)
-    #     soup = BeautifulSoup(p.content, 'html.parser')
-    #     divs = soup.find_all('div', attrs={'class': ['col-80', 'col-md-100', 'mb-1', 'mx-auto']})
-    #     a = [div.find_all('div', attrs={'class': 'card-body'})[0].text for div in divs]
-    #     out = "FirstName,LastName, EpicID,Attendance,ClassTitle,Date\n"
-    #     count = 0
-    #     response = {'data': {}}
-    #     if len(a) > 0:
-
-    #         for attend in a:
-    #             rec = attend.strip().split('\n')
-    #             first_name = rec[0]
-    #             last_name = rec[1].strip('-').strip()
-    #             epic_id = rec[2].split('-')[0].strip()
-    #             attendance = rec[3].split('-')[0].strip()
-    #             class_title = rec[4].strip().replace(' held on',
-    #                                                  '').replace('(can NOT say CAS anywhere on it)',
-    #                                                              '').replace('CX REQUIRED', '')
-    #             date = rec[3].split('-')[1]
-    #             date = date.split()
-    #             date = date[0][:3] + " " + date[1] + " " + date[2]
-    #             rec[4].strip('held on').strip()
-    #             dt = datetime.datetime.strptime(date, '%b %d, %Y')
-    #             if seven_days()[0] <= dt <= seven_days()[1]:
-    #                 out += "{},{},{},{},{},\"{}\"\n".format(first_name, last_name, epic_id,
-    #                                                         attendance, class_title, date)
-    #                 response['data'][count] = {'first_name': first_name,
-    #                                            'last_name': last_name,
-    #                                            'epic_id': epic_id,
-    #                                            'attendance': attendance,
-    #                                            'class_title': class_title,
-    #                                            'date': date}
-
-    #                 count += 1
-    #         response['status_code'] = '100'
-    #         response['message'] = "Records Pulled Successfully"
-    #         response['site'] = "Epic Live Attendance"
-    #         current_date = seven_days()
-    #         response['date_start'] = current_date[0]
-    #         response['date_end'] = current_date[1]
-
-    #     else:
-    #         response = {'status_code': '204',
-    #                     'message': 'Record Not Found',
-    #                     'site': 'Epic Live'}
-    response = {}
-    return response
-
-def get_dream_box_data():
-    # driver = webdriver.Firefox(executable_path=path, options=options)
-    driver = webdriver.Chrome(executable_path=path, options=options)
-    wait = WebDriverWait(driver, 30)
-    login_url = "https://play.dreambox.com/dashboard/login/"
-    a = str(seven_days()[0]).split()[0]
-    b = str(seven_days()[1]).split()[0]
-
-    a = "".join(a.split('-'))
-    b = "".join(b.split('-'))
-    #https://insight.dreambox.com/district/19207/classroom/1850338?schoolId=47805&teacherId=12317771&breadcrumbs=d,sc,t,c&pane=overview&order=asc&sort=first_name&timeframe=fd2019110td20191109&timeframeId=custom&by=week
-    request_url = "https://insight.dreambox.com/district/19207/classroom/1850338?schoolId=47805&teacherId=12317771" \
-                  "&breadcrumbs=d,sc,t,c&pane=overview&order=asc&sort=first_name&timeframe=fd" + a + "td" + b + \
-                  "&timeframeId=custom&by=week "
-    driver.get(login_url)
-    driver.implicitly_wait(10)
-    elem = driver.find_element_by_name("email_address")
-    elem.send_keys("charlotte.wood@epiccharterschools.org")
-    elem = driver.find_element_by_name("password")
-    elem.send_keys("Teacher1")
-    elem = driver.find_element_by_name("dashboard")
-    elem.click()
     try:
-        wait.until(
-            EC.presence_of_element_located((By.CLASS_NAME, "dbl-icon"))
-        )
-    except selenium.common.exceptions.TimeoutException:
-        pass
-    driver.get(request_url)
-    wait.until(
-        EC.presence_of_element_located((By.LINK_TEXT, "Click Here"))
-    )
-    elem = driver.find_elements_by_xpath("//div[@class='ng-scope']/section/table[1]")
+        wait = WebDriverWait(driver, 30)
+        login_url = "https://www.epicliveservices.com/admin/"
+        # driver.get
+        driver.get(login_url)
+        driver.implicitly_wait(10)
+        # elem = driver.find_element_by_name("username")
+        # elem.send_keys("charlotte.wood")
+        # elem = driver.find_element_by_name("password")
+        # elem.send_keys("Pa55word!")
+        # # elem = driver.find_elements_by_tag_name("input")
+        # # elem = driver.findElement(By.XPATH("//*[text()='Log in']"))
+        # driver.implicitly_wait(10)
+        # elem1 = driver.find_element_by_xpath("//div[@class='submit-row']//input")
+        # # for i = 
+        # # .text("Log in")
+        # elem1.click()
+        # driver.implicitly_wait(30)
 
-    if len(elem) > 0:
-        elem = driver.find_element_by_xpath("//div[@class='ng-scope']/section/table[1]")
-        bo = elem.get_attribute('innerHTML')
-        soup = BeautifulSoup(bo, 'html.parser')
-        tbody = soup.find('tbody')
-        rows = tbody.find_all('tr')
-        count = 0
-        response = {'data': {}}
-        for row in rows:
-            rec = row.find_all('span', attrs={'class': 'ng-binding'})
-            response['data'][count] = {'first_name': rec[1].text.strip(),
-                                       'last_name': rec[2].text.strip(),
-                                       'total_time': rec[4].text.strip(),
-                                       'lesson_completed': rec[8].text.strip()}
-            count += 1
+        # r = requests.get("https://www.epicliveservices.com/admin/login")
+        # content = r.content
+
         response['status_code'] = '100'
         response['message'] = "Records Pulled Successfully"
-        response['site'] = "Dreambox"
+        response['site'] = "Epic Live Attendance"
         current_date = seven_days()
         response['date_start'] = current_date[0]
         response['date_end'] = current_date[1]
 
-    else:
-        response = {'status_code': '204', 'message': 'record not found', 'site': 'Dream Box'}
-    driver.close()
+
+        soup = BeautifulSoup(driver, 'html.parser')
+        inputs = soup.find('input')['value']
+        param = soup.findAll('input')[-2]['value']
+        payload = {'username': 'charlotte.wood',
+                   'password': "Pa55word!",
+                   'csrfmiddlewaretoken': inputs, "next": param}
+        with requests.Session() as sess:
+            sess.post('https://www.epicliveservices.com/admin/login/?next=/admin/', data=payload,
+                      headers={'referer': 'https://www.epicliveservices.com/admin/login',
+                               'X-CSRF-Token': inputs, },
+                      cookies=r.cookies)
+            p = sess.get(request_url,
+                         headers={'referer': 'https://www.epicliveservices.com/admin/',
+                                  'X-CSRF-Token': inputs, },
+                         cookies=r.cookies)
+            soup = BeautifulSoup(p.content, 'html.parser')
+            divs = soup.find_all('div', attrs={'class': ['col-80', 'col-md-100', 'mb-1', 'mx-auto']})
+            a = [div.find_all('div', attrs={'class': 'card-body'})[0].text for div in divs]
+            out = "FirstName,LastName, EpicID,Attendance,ClassTitle,Date\n"
+            count = 0
+            # response = {'data': {}}
+            if len(a) > 0:
+
+                for attend in a:
+                    rec = attend.strip().split('\n')
+                    first_name = rec[0]
+                    last_name = rec[1].strip('-').strip()
+                    epic_id = rec[2].split('-')[0].strip()
+                    attendance = rec[3].split('-')[0].strip()
+                    class_title = rec[4].strip().replace(' held on',
+                                                         '').replace('(can NOT say CAS anywhere on it)',
+                                                                     '').replace('CX REQUIRED', '')
+                    date = rec[3].split('-')[1]
+                    date = date.split()
+                    date = date[0][:3] + " " + date[1] + " " + date[2]
+                    rec[4].strip('held on').strip()
+                    dt = datetime.datetime.strptime(date, '%b %d, %Y')
+                    if seven_days()[0] <= dt <= seven_days()[1]:
+                        out += "{},{},{},{},{},\"{}\"\n".format(first_name, last_name, epic_id,
+                                                                attendance, class_title, date)
+                        response['data'][count] = {'first_name': first_name,
+                                                   'last_name': last_name,
+                                                   'present': epic_id,
+                                                   'absent': attendance}
+                                                #    'class_title': class_title,
+                                                #    'date': date}
+
+                        count += 1
+
+
+            else:
+                response = {'status_code': '204',
+                            'message': 'Record Not Found',
+                            'site': 'Epic Live'}
+        # response = {}
+    except Exception:
+        crawler(response, '/data/Epic_Live_Attendance.txt',items)
+    return response
+
+# step1 , 2 dream bos minutes
+def get_dream_box_data():
+    driver = webdriver.Firefox(executable_path=path, options=options)
+    # driver = webdriver.Chrome(executable_path=path, options=options)
+    wait = WebDriverWait(driver, 30)
+    items = ['first_name', 'last_name', 'total_time', 'lesson_completed']
+    response = {'data': {}}
+    try:
+        response['status_code'] = '100'
+        response['message'] = "Records Pulled Successfully"
+        response['site'] = "Dreambox Minutes"
+        current_date = seven_days()
+        response['date_start'] = current_date[0]
+        response['date_end'] = current_date[1]
+        login_url = "https://play.dreambox.com/dashboard/login/"
+        a = str(seven_days()[0]).split()[0]
+        b = str(seven_days()[1]).split()[0]
+
+        a = "".join(a.split('-'))
+        b = "".join(b.split('-'))
+        #https://insight.dreambox.com/district/19207/classroom/1850338?schoolId=47805&teacherId=12317771&breadcrumbs=d,sc,t,c&pane=overview&order=asc&sort=first_name&timeframe=fd2019110td20191109&timeframeId=custom&by=week
+        request_url = "https://insight.dreambox.com/district/19207/classroom/1850338?schoolId=47805&teacherId=12317771" \
+                    "&breadcrumbs=d,sc,t,c&pane=overview&order=asc&sort=first_name&timeframe=fd" + a + "td" + b + \
+                    "&timeframeId=custom&by=week "
+        driver.get(login_url)
+        driver.implicitly_wait(10)
+        elem = driver.find_element_by_name("email_address")
+        elem.send_keys("charlotte.wood@epiccharterschools.org")
+        elem = driver.find_element_by_name("password")
+        elem.send_keys("Teacher1")
+        elem = driver.find_element_by_name("dashboard")
+        elem.click()
+        try:
+            wait.until(
+                EC.presence_of_element_located((By.CLASS_NAME, "dbl-icon"))
+            )
+        except selenium.common.exceptions.TimeoutException:
+            pass
+        driver.get(request_url)
+        wait.until(
+            EC.presence_of_element_located((By.LINK_TEXT, "Click Here"))
+        )
+        elem = driver.find_elements_by_xpath("//div[@class='ng-scope']/section/table[1]")
+
+        if len(elem) > 0:
+            elem = driver.find_element_by_xpath("//div[@class='ng-scope']/section/table[1]")
+            bo = elem.get_attribute('innerHTML')
+            soup = BeautifulSoup(bo, 'html.parser')
+            tbody = soup.find('tbody')
+            rows = tbody.find_all('tr')
+            count = 0
+            
+            
+            for row in rows:
+                rec = row.find_all('span', attrs={'class': 'ng-binding'})
+                response['data'][count] = {'first_name': rec[1].text.strip(),
+                                        'last_name': rec[2].text.strip(),
+                                        'total_time': rec[4].text.strip(),
+                                        'lesson_completed': rec[8].text.strip()}
+                count += 1
+
+
+        else:
+            response = {'status_code': '204', 'message': 'record not found', 'site': 'Dream Box'}
+        driver.close()
+    except Exception:
+        crawler(response, '/data/Dreambox_lessons.txt', items)
+        pass         
     return response
 
 #step 5 Reading Eggs
@@ -200,88 +218,70 @@ def get_reading_eggs_data():
     wait = WebDriverWait(driver, 30)
     counter = 0
     response = {'data': {}}
+    items = ['first_name', 'last_name', 'lessons_completed']
+    try:
+        response['status_code'] = '100'
+        response['title'] = 'Reading Eggs'
+        response['message'] = "pulled Successfully"
+        if not response['data']:
+            response['status_code'] = '204',
+            response['message'] = 'Data Could Not Be Pulled'
+        response['site'] = "Reading Eggs"
+        current_date = seven_days()
+        response['date_start'] = current_date[0]
+        response['date_end'] = current_date[1]
+        def get_data(link, x_path):
+            # response = {'data': {}}
+            counter = 0
+            try:
+                driver.get(link)
+                try:
+                    wait.until(
+                    EC.presence_of_element_located((By.XPATH, x_path))
+                    )
+                except TimeoutException:
+                    pass
+                soup = BeautifulSoup(driver.page_source, 'html.parser')
+                table_body = soup.find('tbody')
+                trs = table_body.find_all('tr')
+                for tr in trs:
+                    tds = tr.find_all('td')
+                    response['data'][counter] = {'first_name': tds[0].text.strip(),
+                                                'last_name': tds[1].text.strip(),
+                                                'lessons_completed': tds[2].text.strip()}
+                                                #  'attendance': int(tds[3].text.strip().replace('-', '0')),
+                                                #  'average_score': int(tds[4].text.strip().replace('-', '0').replace('%', ''))}
+                    counter = counter + 1
+            except Exception:
+                
+                pass
+            return response
 
-    def get_data(link, x_path):
-        response = {'data': {}}
-        counter = 0
-        driver.get(link)
-        try:
-            wait.until(
-            EC.presence_of_element_located((By.XPATH, x_path))
-            )
-        except TimeoutException:
-            pass
-        soup = BeautifulSoup(driver.page_source, 'html.parser')
-        table_body = soup.find('tbody')
-        trs = table_body.find_all('tr')
-        for tr in trs:
-            tds = tr.find_all('td')
-            response['data'][counter] = {'first_name': tds[0].text.strip(),
-                                         'last_name': tds[1].text.strip(),
-                                         'lessons_completed': tds[2].text.strip()}
-                                        #  'attendance': int(tds[3].text.strip().replace('-', '0')),
-                                        #  'average_score': int(tds[4].text.strip().replace('-', '0').replace('%', ''))}
-            counter = counter + 1
-        return response
+        # def get_difference(egg_1, egg_2):
+        #     global counter
+        #     for i, j in zip(egg_2['data'].values(), egg_1['data'].values()):
+        #         d3 = {}
+        #         for k, v in i.items():
+        #             d3[k] = abs(v - j.get(k, 0)) if isinstance(v, int) else j.get(k, 0)
+        #             response['data'][counter] = d3
+        #         counter += 1
 
-    def get_difference(egg_1, egg_2):
-        global counter
-        for i, j in zip(egg_2['data'].values(), egg_1['data'].values()):
-            d3 = {}
-            for k, v in i.items():
-                d3[k] = abs(v - j.get(k, 0)) if isinstance(v, int) else j.get(k, 0)
-                response['data'][counter] = d3
-            counter += 1
-
-    driver.get("https://sso.readingeggs.com/login")
-    driver.implicitly_wait(10)
-    elem = driver.find_element_by_name("username")
-    elem.send_keys("charlotte.wood@epiccharterschools.org")
-    elem = driver.find_element_by_name("password")
-    elem.send_keys("Principal1")
-    wait.until(
-        EC.presence_of_element_located((By.ID, "commit"))
-    )
-    elem = driver.find_element_by_name("commit")
-    elem.click()
-    wait.until(
-        EC.presence_of_element_located((By.ID, "sidebar"))
-    )
-
-    # https://app.readingeggs.com/v1/teacher#/reading/reporting/teacher/4807656/reading-eggs/assessment-scores?dateRange=named-period%3Alast-7-days/html/body/div[2]/div[2]/div[2]/div[2]/div/div/div/div/div/div[3]/div[2]/div/div/div/table/tbody
-    # egg_last_7_days = get_data("https://app.readingeggs.com/v1/teacher#/reading/reporting/teacher/4807656/reading-eggs" \
-    #                            "/assessment-scores?dateRange=named-period%3Alast-7-days",
-    #                            '/html/body/div[2]/div[2]/div[2]/div[2]/div/div/div/div/div/div[3]/div[2]/div/div/div/table/tbody')
-    # egg_this_year = get_data("https://app.readingeggs.com/v1/teacher#/reading/reporting/teacher/4807656/reading-eggs" \
-    #                          "/assessment-scores?dateRange=named-period%3Athis-year",
-    #                          '/html/body/div[2]/div[2]/div[2]/div[2]/div/div/div/div/div/div[3]/div[4]/div/div/div/table/tbody')
-    # egg_press_last_7_days = get_data("https://app.readingeggs.com/v1/teacher#/reading/reporting/teacher/4807656/reading" \
-    #                                  "-eggspress/quiz-scores?dateRange=named-period%3Alast-7-days",
-    #                                  '/html/body/div[2]/div[2]/div[2]/div[2]/div/div/div/div/div/div[3]/div['
-    #                                  '4]/div/div/table/tbody')
-    # egg_press_this_year = get_data(
-    #     "https://app.readingeggs.com/v1/teacher#/reading/reporting/teacher/4807656/reading-eggspress" \
-    #     "/quiz-scores?dateRange=named-period%3Athis-year",
-    #     '/html/body/div[1]/div[1]/div[1]/div[1]/div/div/div/div/div[2]/div[12]/div[0]/tbody'
-    #     '4]/div/div/table/tbody')
-
-    # get_difference(egg_this_year, egg_last_7_days)
-    # get_difference(egg_press_this_year, egg_press_last_7_days)
-
-
-    response = get_data('https://app.readingeggs.com/v1/teacher#/reading/reporting/teacher/4807656/reading-eggs/course-progress/reading', '/html/body/div[1]/div[1]/div[1]/div[1]/div/div/div/div/div[2]/div[12]/div[0]/tbody')
-
-    response['status_code'] = '100'
-    response['title'] = 'Reading Eggs'
-    response['message'] = "pulled Successfully"
-    if not response['data']:
-        response['status_code'] = '204',
-        response['message'] = 'Data Could Not Be Pulled'
-    response['site'] = "Reading Eggs"
-    current_date = seven_days()
-    response['date_start'] = current_date[0]
-    response['date_end'] = current_date[1]
-    driver.close()
+        driver.get("https://sso.readingeggs.com/login")
+        driver.implicitly_wait(10)
+        elem = driver.find_element_by_name("username")
+        elem.send_keys("charlotte.wood@epiccharterschools.org")
+        elem = driver.find_element_by_name("password")
+        elem.send_keys("Principal1")
+        elem = driver.find_element_by_name("commit")
+        elem.click()
+        wait.until(
+            EC.presence_of_element_located((By.ID, "sidebar"))
+        )
+        response = get_data('https://app.readingeggs.com/v1/teacher#/reading/reporting/teacher/4807656/reading-eggs/course-progress/reading', '/html/body/div[1]/div[1]/div[1]/div[1]/div/div/div/div/div[2]/div[12]/div[0]/tbody')
+        driver.close()
+    except Exception:
+        crawler(response, '/data/reading_eggs.txt', items)
+        pass
     # print(response)
     return response
 
@@ -293,112 +293,122 @@ def get_reading_eggspress_data():
     wait = WebDriverWait(driver, 30)
     # counter = 0
     response = {'data': {}}
+    items = ['first_name', 'last_name', 'lessons_completed']
+    try:
+        response['status_code'] = '100'
+        response['title'] = 'Reading Eggspress'
+        response['message'] = "pulled Successfully"
+        if not response['data']:
+            response['status_code'] = '204',
+            response['message'] = 'Data Could Not Be Pulled'
+        response['site'] = "Reading Eggspress"
+        current_date = seven_days()
+        response['date_start'] = current_date[0]
+        response['date_end'] = current_date[1]
+        def get_data(link, x_path):
+            response = {'data': {}}
+            counter = 0
+            driver.get(link)
+            try:
+                wait.until(
+                EC.presence_of_element_located((By.XPATH, x_path))
+                )
+            except TimeoutException:
+                pass
+            soup = BeautifulSoup(driver.page_source, 'html.parser')
+            table_body = soup.find('tbody')
+            trs = table_body.find_all('tr')
+            for tr in trs:
+                tds = tr.find_all('td')
+                response['data'][counter] = {'first_name': tds[0].text.strip(),
+                                            'last_name': tds[1].text.strip(),
+                                            'lessons_completed': tds[2].text.strip()}
+                counter = counter + 1
+            return response
 
-    def get_data(link, x_path):
-        response = {'data': {}}
-        counter = 0
-        driver.get(link)
-        try:
-            wait.until(
-            EC.presence_of_element_located((By.XPATH, x_path))
-            )
-        except TimeoutException:
-            pass
-        soup = BeautifulSoup(driver.page_source, 'html.parser')
-        table_body = soup.find('tbody')
-        trs = table_body.find_all('tr')
-        for tr in trs:
-            tds = tr.find_all('td')
-            response['data'][counter] = {'first_name': tds[0].text.strip(),
-                                         'last_name': tds[1].text.strip(),
-                                         'lessons_completed': tds[2].text.strip()}
-            counter = counter + 1
-        return response
+        driver.get("https://sso.readingeggs.com/login")
+        driver.implicitly_wait(10)
+        elem = driver.find_element_by_name("username")
+        elem.send_keys("charlotte.wood@epiccharterschools.org")
+        elem = driver.find_element_by_name("password")
+        elem.send_keys("Principal1")
+        elem = driver.find_element_by_name("commit")
+        elem.click()
+        wait.until(
+            EC.presence_of_element_located((By.ID, "sidebar"))
+        )
 
-    driver.get("https://sso.readingeggs.com/login")
-    driver.implicitly_wait(10)
-    elem = driver.find_element_by_name("username")
-    elem.send_keys("charlotte.wood@epiccharterschools.org")
-    elem = driver.find_element_by_name("password")
-    elem.send_keys("Principal1")
-    elem = driver.find_element_by_name("commit")
-    elem.click()
-    wait.until(
-        EC.presence_of_element_located((By.ID, "sidebar"))
-    )
+        response = get_data('https://app.readingeggs.com/v1/teacher#/reading/reporting/teacher/4807656/reading-eggspress/books-read/by-genre', '/html/body/div[1]/div[1]/div[1]/div[1]/div/div/div/div/div[2]/div[3]/div[0]/div[0]/tbody')
 
-    response = get_data('https://app.readingeggs.com/v1/teacher#/reading/reporting/teacher/4807656/reading-eggspress/books-read/by-genre', '/html/body/div[1]/div[1]/div[1]/div[1]/div/div/div/div/div[2]/div[3]/div[0]/div[0]/tbody')
 
-    response['status_code'] = '100'
-    response['title'] = 'Reading Eggspress'
-    response['message'] = "pulled Successfully"
-    if not response['data']:
-        response['status_code'] = '204',
-        response['message'] = 'Data Could Not Be Pulled'
-    response['site'] = "Reading Eggspress"
-    current_date = seven_days()
-    response['date_start'] = current_date[0]
-    response['date_end'] = current_date[1]
-    driver.close()
+        driver.close()
+    except Exception:
+        crawler(response, '/data/reading_eggspress.txt',items)
+        pass
     # print(response)
     return response
 
 #step 7 Math Seeds
 def get_math_seeds():
-    # driver = webdriver.Firefox(executable_path=path, options=options)
-    driver = webdriver.Chrome(executable_path=path, options=options)
+    driver = webdriver.Firefox(executable_path=path, options=options)
+    # driver = webdriver.Chrome(executable_path=path, options=options)
 
     wait = WebDriverWait(driver, 30)
     # counter = 0
     response = {'data': {}}
+    items = ['first_name', 'last_name', 'lessons_completed']
+    try:
+        response['status_code'] = '100'
+        response['title'] = 'Math Seeds'
+        response['message'] = "pulled Successfully"
+        if not response['data']:
+            response['status_code'] = '204',
+            response['message'] = 'Data Could Not Be Pulled'
+        response['site'] = "Math Seeds"
+        current_date = seven_days()
+        response['date_start'] = current_date[0]
+        response['date_end'] = current_date[1]
 
-    def get_data(link, x_path):
-        response = {'data': {}}
-        counter = 0
-        driver.get(link)
-        try:
-            wait.until(
-            EC.presence_of_element_located((By.XPATH, x_path))
-            )
-        except TimeoutException:
-            pass
-        soup = BeautifulSoup(driver.page_source, 'html.parser')
-        table_body = soup.find('tbody')
-        trs = table_body.find_all('tr')
-        for tr in trs:
-            tds = tr.find_all('td')
-            response['data'][counter] = {'first_name': tds[0].text.strip(),
-                                         'last_name': tds[1].text.strip(),
-                                         'lessons_completed': tds[2].text.strip()}
-                                        #  'attendance': int(tds[3].text.strip().replace('-', '0')),
-                                        #  'average_score': int(tds[4].text.strip().replace('-', '0').replace('%', ''))}
-            counter = counter + 1
-        return response
+        def get_data(link, x_path):
+            response = {'data': {}}
+            counter = 0
+            driver.get(link)
+            try:
+                wait.until(
+                EC.presence_of_element_located((By.XPATH, x_path))
+                )
+            except TimeoutException:
+                pass
+            soup = BeautifulSoup(driver.page_source, 'html.parser')
+            table_body = soup.find('tbody')
+            trs = table_body.find_all('tr')
+            for tr in trs:
+                tds = tr.find_all('td')
+                response['data'][counter] = {'first_name': tds[0].text.strip(),
+                                            'last_name': tds[1].text.strip(),
+                                            'lessons_completed': tds[2].text.strip()}
+                                            #  'attendance': int(tds[3].text.strip().replace('-', '0')),
+                                            #  'average_score': int(tds[4].text.strip().replace('-', '0').replace('%', ''))}
+                counter = counter + 1
+            return response
 
-    driver.get("https://sso.readingeggs.com/login")
-    driver.implicitly_wait(10)
-    elem = driver.find_element_by_name("username")
-    elem.send_keys("charlotte.wood@epiccharterschools.org")
-    elem = driver.find_element_by_name("password")
-    elem.send_keys("Principal1")
-    elem = driver.find_element_by_name("commit")
-    elem.click()
-    wait.until(
-        EC.presence_of_element_located((By.ID, "sidebar"))
-    )
-    response = get_data('https://app.readingeggs.com/v1/teacher#/maths/reporting/teacher/4807656/mathseeds/course-progress/lessons', '/html/body/div[1]/div[1]/div[1]/div[1]/div/div/div/div/div[2]/div[8]/div[0]/tbody')
+        driver.get("https://sso.readingeggs.com/login")
+        driver.implicitly_wait(10)
+        elem = driver.find_element_by_name("username")
+        elem.send_keys("charlotte.wood@epiccharterschools.org")
+        elem = driver.find_element_by_name("password")
+        elem.send_keys("Principal1")
+        elem = driver.find_element_by_name("commit")
+        elem.click()
+        wait.until(
+            EC.presence_of_element_located((By.ID, "sidebar"))
+        )
+        response = get_data('https://app.readingeggs.com/v1/teacher#/maths/reporting/teacher/4807656/mathseeds/course-progress/lessons', '/html/body/div[1]/div[1]/div[1]/div[1]/div/div/div/div/div[2]/div[8]/div[0]/tbody')
 
-    response['status_code'] = '100'
-    response['title'] = 'Math Seeds'
-    response['message'] = "pulled Successfully"
-    if not response['data']:
-        response['status_code'] = '204',
-        response['message'] = 'Data Could Not Be Pulled'
-    response['site'] = "Math Seeds"
-    current_date = seven_days()
-    response['date_start'] = current_date[0]
-    response['date_end'] = current_date[1]
-    driver.close()
+
+        driver.close()
+    except Exception:
+        crawler(response, '/data/math_seeds.txt', items)
     # print(response)
     return response
 
@@ -1030,96 +1040,103 @@ def get_success_maker():
 #step 4 Compass
 def get_compass():
     print("scraping www.thelearningodyssey.com")
-    # driver = webdriver.Firefox(executable_path=path, options=options)
-    driver = webdriver.Chrome(executable_path=path, options=options)
-    wait = WebDriverWait(driver, delayTime)
-    login_url = "https://www.thelearningodyssey.com/"
-    # a = str(seven_days()[0]).split()[0]
-    # b = str(seven_days()[1]).split()[0]
-
-    # a = "".join(a.split('-'))
-    # b = "".join(b.split('-'))
-    #https://insight.dreambox.com/district/19207/classroom/1850338?schoolId=47805&teacherId=12317771&breadcrumbs=d,sc,t,c&pane=overview&order=asc&sort=first_name&timeframe=fd2019110td20191109&timeframeId=custom&by=week
-    # request_url = "https://insight.dreambox.com/district/19207/classroom/1850338?schoolId=47805&teacherId=12317771" \
-    #               "&breadcrumbs=d,sc,t,c&pane=overview&order=asc&sort=first_name&timeframe=fd" + a + "td" + b + \
-    #               "&timeframeId=custom&by=week "
-    driver.get(login_url)
-    main_page = driver.current_window_handle 
-    # driver.implicitly_wait(10)
-    elem = driver.find_element_by_id("UserNameEntry")
-    elem.send_keys("charlotte.wood")
-    elem = driver.find_element_by_id("UserPasswordEntry")
-    elem.send_keys("Pa55word")
-    elem = driver.find_element_by_name("SchoolNameEntry")
-    elem.clear()
-    elem.send_keys("EPIC")
-    elem = driver.find_element_by_id("cmdLoginButton")
-    elem.click()
-
-    # sleep(10)
-
-    # provide visibility to non-popup window by hiding the other (do not close since it breaks the session)
-    window_before = driver.window_handles[0]
-    window_after = driver.window_handles[1]
-    print("windows pass")
-    print(len(driver.window_handles))
-    driver.switch_to_window(window_after)
-    driver.set_window_size(0, 0)
-    driver.switch_to_window(window_before)
-
-    session_id = driver.get_cookie('SessionID')['value']
-    dashboard_url = 'https://www.thelearningodyssey.com/InstructorAdmin/Dashboard.aspx?SessionID={}'.format(session_id)
-    driver.get(dashboard_url)
-    driver.get('https://www.thelearningodyssey.com/Assignments/CourseManager.aspx')
-    # sleep(5.0)
-    elem = driver.find_element_by_xpath('//*[@id="CourseManagerTree1t5"]')
-    elem.click()
-    wait.until(EC.presence_of_element_located((By.ID, "Tr1")))
-    like = [item.get_attribute('onclick').split("(")[1].split(')')[0] for item in
-            driver.find_elements_by_class_name('gbIcon')]
-
+    driver = webdriver.Firefox(executable_path=path, options=options)
+    # driver = webdriver.Chrome(executable_path=path, options=options)
     response = {'data': {}}
-    count = 0
-    for x in range(0, len(like)):
-        url = "https://www.thelearningodyssey.com/Assignments/Gradebook.aspx?courseid=" + like[x]
-        driver.get(url)
-        wait.until(
-            EC.presence_of_element_located((By.ID, "dialog"))
-        )
-        # kk = driver.find_element_by_id('titleSubstitution')
-        # if driver.find_element_by_id('titleSubstitution') == null:
-        #     continue
-        dialog = driver.find_element_by_id('dialog')
-        completions = dialog.find_elements_by_class_name('done')
-        if len(completions) <= 1:
-            continue
-        scores = driver.find_elements_by_class_name('score')
-        names = driver.find_elements_by_class_name('studentName')
-        title_text = driver.find_element_by_id('titleSubstitution').text
-        for i in range(1, len(completions)):
-            name = names[i - 1].get_attribute('innerHTML')
-            full_title_split = title_text.split('-')[1].replace(' GRADE ', '').replace('Semester ','').split(' ')
-            response['data'][count] = {'first_name': name.split(",")[1].split()[0],
-                                       'last_name': name.split(",")[0],
-                                       'course_name':title_text,
-                                       "course_grade": int(scores[i * 2].get_attribute('innerHTML').replace("%", '').replace('--', '0').replace('-', '')),
-                                    #    'completion': int(completions[i].get_attribute('innerHTML').replace("%", '').replace('-', '0')),
-                                    #    'title': full_title_split[-1],
-                                    #    'subject': full_title_split[1],
-                                    #    'grade_level': full_title_split[0],
-                                       }
+    items = ['first_name', 'last_name', 'course_name','course_grade']
+    try:
+        response['status_code'] = '100'
+        response['message'] = 'pulled successfully'
+        response['site'] = 'Compass'
+        current_date = seven_days()
+        response['date_start'] = current_date[0]
+        response['date_end'] = current_date[1]
+        if not response['data']:
+            response['message'] = 'The data could not be pulled'
+            response['status_code'] = '204'
+        driver.quit()
 
-            count = count + 1
-    response['status_code'] = '100'
-    response['message'] = 'pulled successfully'
-    response['site'] = 'Compass'
-    current_date = seven_days()
-    response['date_start'] = current_date[0]
-    response['date_end'] = current_date[1]
-    if not response['data']:
-        response['message'] = 'The data could not be pulled'
-        response['status_code'] = '204'
-    driver.quit()
+        wait = WebDriverWait(driver, delayTime)
+        login_url = "https://www.thelearningodyssey.com/"
+        # a = str(seven_days()[0]).split()[0]
+        # b = str(seven_days()[1]).split()[0]
+
+        # a = "".join(a.split('-'))
+        # b = "".join(b.split('-'))
+        #https://insight.dreambox.com/district/19207/classroom/1850338?schoolId=47805&teacherId=12317771&breadcrumbs=d,sc,t,c&pane=overview&order=asc&sort=first_name&timeframe=fd2019110td20191109&timeframeId=custom&by=week
+        # request_url = "https://insight.dreambox.com/district/19207/classroom/1850338?schoolId=47805&teacherId=12317771" \
+        #               "&breadcrumbs=d,sc,t,c&pane=overview&order=asc&sort=first_name&timeframe=fd" + a + "td" + b + \
+        #               "&timeframeId=custom&by=week "
+        driver.get(login_url)
+        main_page = driver.current_window_handle 
+        # driver.implicitly_wait(10)
+        elem = driver.find_element_by_id("UserNameEntry")
+        elem.send_keys("charlotte.wood")
+        elem = driver.find_element_by_id("UserPasswordEntry")
+        elem.send_keys("Pa55word")
+        elem = driver.find_element_by_name("SchoolNameEntry")
+        elem.clear()
+        elem.send_keys("EPIC")
+        elem = driver.find_element_by_id("cmdLoginButton")
+        elem.click()
+
+        # sleep(10)
+
+        # provide visibility to non-popup window by hiding the other (do not close since it breaks the session)
+        window_before = driver.window_handles[0]
+        window_after = driver.window_handles[1]
+        print("windows pass")
+        print(len(driver.window_handles))
+        driver.switch_to_window(window_after)
+        driver.set_window_size(0, 0)
+        driver.switch_to_window(window_before)
+
+        session_id = driver.get_cookie('SessionID')['value']
+        dashboard_url = 'https://www.thelearningodyssey.com/InstructorAdmin/Dashboard.aspx?SessionID={}'.format(session_id)
+        driver.get(dashboard_url)
+        driver.get('https://www.thelearningodyssey.com/Assignments/CourseManager.aspx')
+        # sleep(5.0)
+        elem = driver.find_element_by_xpath('//*[@id="CourseManagerTree1t5"]')
+        elem.click()
+        wait.until(EC.presence_of_element_located((By.ID, "Tr1")))
+        like = [item.get_attribute('onclick').split("(")[1].split(')')[0] for item in
+                driver.find_elements_by_class_name('gbIcon')]
+
+        response = {'data': {}}
+        count = 0
+        for x in range(0, len(like)):
+            url = "https://www.thelearningodyssey.com/Assignments/Gradebook.aspx?courseid=" + like[x]
+            driver.get(url)
+            wait.until(
+                EC.presence_of_element_located((By.ID, "dialog"))
+            )
+            # kk = driver.find_element_by_id('titleSubstitution')
+            # if driver.find_element_by_id('titleSubstitution') == null:
+            #     continue
+            dialog = driver.find_element_by_id('dialog')
+            completions = dialog.find_elements_by_class_name('done')
+            if len(completions) <= 1:
+                continue
+            scores = driver.find_elements_by_class_name('score')
+            names = driver.find_elements_by_class_name('studentName')
+            title_text = driver.find_element_by_id('titleSubstitution').text
+            for i in range(1, len(completions)):
+                name = names[i - 1].get_attribute('innerHTML')
+                full_title_split = title_text.split('-')[1].replace(' GRADE ', '').replace('Semester ','').split(' ')
+                response['data'][count] = {'first_name': name.split(",")[1].split()[0],
+                                        'last_name': name.split(",")[0],
+                                        'course_name':title_text,
+                                        "course_grade": int(scores[i * 2].get_attribute('innerHTML').replace("%", '').replace('--', '0').replace('-', '')),
+                                        #    'completion': int(completions[i].get_attribute('innerHTML').replace("%", '').replace('-', '0')),
+                                        #    'title': full_title_split[-1],
+                                        #    'subject': full_title_split[1],
+                                        #    'grade_level': full_title_split[0],
+                                        }
+
+                count = count + 1
+    except Exception:
+        crawler(response, '/data/compass.txt', items)
+        pass
     # print(response)
     return response
     
@@ -1298,7 +1315,16 @@ def get_homework_help():
     # print(response)
     return response
 
-
+def crawler(response, file_name,items):
+    save_file = open(file_name, 'r+')
+    fl = save_file.readlines()
+    counter = 0
+    for line in fl:
+        response['data'][counter] = {items[0]: line.split(',')[0],
+                                    items[1]: line.split(',')[1],
+                                    items[2]: line.split(',')[2]}
+        counter = counter + 1
+    return response
 
 if __name__ == "__main__":
     print(seven_days())

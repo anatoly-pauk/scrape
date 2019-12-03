@@ -1,0 +1,46 @@
+Hunter,Huddleston,Gradebook - GRADE 1 MATH Semester A GR1MA0C-Charlotte Wood-07/15/2019 03:37PM,0
+Hunter,Huddleston,Gradebook - GRADE 1 MATH Semester B GR1MA0D-Charlotte Wood-07/15/2019 03:37PM,0
+Hunter,Huddleston,Gradebook - GRADE 1 READING Semester A GR1LA0C-Charlotte Wood-07/15/2019 03:37PM,0
+Hunter,Huddleston,Gradebook - GRADE 1 READING Semester B GR1LA0D-Charlotte Wood-07/15/2019 03:37PM,0
+Hunter,Huddleston,Gradebook - GRADE 1 SCIENCE Semester A GR1SC01-Charlotte Wood-07/15/2019 03:37PM,0
+Hunter,Huddleston,Gradebook - GRADE 1 SCIENCE Semester B GR1SC02-Charlotte Wood-07/15/2019 03:37PM,0
+Odin,Estes,Gradebook - GRADE 2 LANGUAGE ARTS Semester A GR2LA0C-Charlotte Wood-07/15/2019 03:37PM,94
+Odin,Estes,Gradebook - GRADE 2 LANGUAGE ARTS Semester B GR2LA0D-Charlotte Wood-07/15/2019 03:37PM,0
+Odin,Estes,Gradebook - GRADE 2 MATH Semester A GR2MA0C-Charlotte Wood-07/15/2019 03:37PM,93
+Odin,Estes,Gradebook - GRADE 2 MATH Semester B GR2MA0D-Charlotte Wood-07/15/2019 03:37PM,0
+Odin,Estes,Gradebook - GRADE 2 SCIENCE Semester A GR2SC01-Charlotte Wood-07/15/2019 03:37PM,93
+Odin,Estes,Gradebook - GRADE 2 SCIENCE Semester B GR2SC02-Charlotte Wood-07/15/2019 03:37PM,0
+Odin,Estes,Gradebook - GRADE 2 SOCIAL STUDIES Semester A GR2SS01-Charlotte Wood-07/15/2019 03:37PM,90
+Odin,Estes,Gradebook - GRADE 2 SOCIAL STUDIES Semester B GR2SS02-Charlotte Wood-07/15/2019 03:37PM,0
+Maci,Brannon,Gradebook - GRADE 3 LANGUAGE ARTS Semester A GR3LA0A-Charlotte Wood-07/15/2019 03:37PM,87
+Gabriella,Estes,Gradebook - GRADE 3 LANGUAGE ARTS Semester A GR3LA0A-Charlotte Wood-07/15/2019 03:37PM,0
+Maci,Brannon,Gradebook - GRADE 3 LANGUAGE ARTS Semester B GR3LA0B-Charlotte Wood-07/15/2019 03:37PM,80
+Gabriella,Estes,Gradebook - GRADE 3 LANGUAGE ARTS Semester B GR3LA0B-Charlotte Wood-07/15/2019 03:37PM,0
+Maci,Brannon,Gradebook - GRADE 3 MATH Semester A GR3MA01-Charlotte Wood-07/15/2019 03:37PM,97
+Gabriella,Estes,Gradebook - GRADE 3 MATH Semester A GR3MA01-Charlotte Wood-07/15/2019 03:37PM,0
+Maci,Brannon,Gradebook - GRADE 3 MATH Semester B GR3MA02-Charlotte Wood-07/15/2019 03:38PM,0
+Gabriella,Estes,Gradebook - GRADE 3 MATH Semester B GR3MA02-Charlotte Wood-07/15/2019 03:38PM,0
+Maci,Brannon,Gradebook - GRADE 3 SCIENCE Semester A GR3SC0A-Charlotte Wood-07/15/2019 03:38PM,88
+Gabriella,Estes,Gradebook - GRADE 3 SCIENCE Semester A GR3SC0A-Charlotte Wood-07/15/2019 03:38PM,0
+Maci,Brannon,Gradebook - GRADE 3 SCIENCE Semester B GR3SC0B-Charlotte Wood-07/15/2019 03:38PM,0
+Gabriella,Estes,Gradebook - GRADE 3 SCIENCE Semester B GR3SC0B-Charlotte Wood-07/15/2019 03:38PM,0
+Maci,Brannon,Gradebook - GRADE 3 SOCIAL STUDIES Semester A GR3SS0A-Charlotte Wood-07/15/2019 03:38PM,82
+Gabriella,Estes,Gradebook - GRADE 3 SOCIAL STUDIES Semester A GR3SS0A-Charlotte Wood-07/15/2019 03:38PM,0
+Maci,Brannon,Gradebook - GRADE 3 SOCIAL STUDIES Semester B GR3SS0B-Charlotte Wood-07/15/2019 03:38PM,0
+Gabriella,Estes,Gradebook - GRADE 3 SOCIAL STUDIES Semester B GR3SS0B-Charlotte Wood-07/15/2019 03:38PM,0
+Tucker,Huddleston,Gradebook - GRADE 4 LANGUAGE ARTS Semester A GR4LA0A-Charlotte Wood-07/25/2019 05:36AM,0
+Tucker,Huddleston,Gradebook - GRADE 4 LANGUAGE ARTS Semester B GR4LA0B-Charlotte Wood-07/25/2019 05:36AM,0
+Tucker,Huddleston,Gradebook - GRADE 4 MATH Semester A GR4MA01-Charlotte Wood-07/25/2019 05:36AM,0
+Tucker,Huddleston,Gradebook - GRADE 4 MATH Semester B GR4MA02-Charlotte Wood-07/25/2019 05:36AM,0
+Tucker,Huddleston,Gradebook - GRADE 4 SCIENCE Semester A GR4SC0A-Charlotte Wood-07/25/2019 05:36AM,0
+Tucker,Huddleston,Gradebook - GRADE 4 SCIENCE Semester B GR4SC0B-Charlotte Wood-07/25/2019 05:36AM,0
+Tucker,Huddleston,Gradebook - GRADE 4 SOCIAL STUDIES Semester A GR4SS0A-Charlotte Wood-07/25/2019 05:36AM,0
+Tucker,Huddleston,Gradebook - GRADE 4 SOCIAL STUDIES Semester B GR4SS0B-Charlotte Wood-07/25/2019 05:36AM,0
+Zurri,Knight,Gradebook - GRADE 5 LANGUAGE ARTS Semester A GR5LA0A-Charlotte Wood-07/30/2019 02:52PM,91
+Zurri,Knight,Gradebook - GRADE 5 LANGUAGE ARTS Semester B GR5LA0B-Charlotte Wood-07/30/2019 02:52PM,0
+Zurri,Knight,Gradebook - GRADE 5 MATH Semester A GR5MA01-Charlotte Wood-07/30/2019 02:52PM,94
+Zurri,Knight,Gradebook - GRADE 5 MATH Semester B GR5MA02-Charlotte Wood-07/30/2019 02:52PM,93
+Zurri,Knight,Gradebook - GRADE 5 SCIENCE Semester A GR5SC0A-Charlotte Wood-07/30/2019 02:52PM,86
+Zurri,Knight,Gradebook - GRADE 5 SCIENCE Semester B GR5SC0B-Charlotte Wood-07/30/2019 02:52PM,0
+Zurri,Knight,Gradebook - GRADE 5 SOCIAL STUDIES Semester A GR5SS0A-Charlotte Wood-07/30/2019 02:53PM,79
+Zurri,Knight,Gradebook - GRADE 5 SOCIAL STUDIES Semester B GR5SS0B-Charlotte Wood-07/30/2019 02:53PM,0
