@@ -239,6 +239,9 @@ def get_reading_eggs_data():
     elem.send_keys("charlotte.wood@epiccharterschools.org")
     elem = driver.find_element_by_name("password")
     elem.send_keys("Principal1")
+    wait.until(
+        EC.presence_of_element_located((By.ID, "commit"))
+    )
     elem = driver.find_element_by_name("commit")
     elem.click()
     wait.until(
@@ -405,8 +408,8 @@ def get_learning_wood_data():
         return Compass
 
     login_url = "https://www.thelearningodyssey.com"
-    # driver = webdriver.Firefox(executable_path=path, options=options)
-    driver = webdriver.Chrome(executable_path=path, options=options)
+    driver = webdriver.Firefox(executable_path=path, options=options)
+    # driver = webdriver.Chrome(executable_path=path, options=options)
     wait = WebDriverWait(driver, 30)
     x = 'https://www.thelearningodyssey.com/InstructorAdmin/Dashboard.aspx?SessionID=75475339FFBE4B049F30C89AF326247F'
     driver.get(login_url)
