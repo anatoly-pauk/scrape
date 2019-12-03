@@ -1,9 +1,9 @@
-Carson Kissire 0 0
-Claire Garner 31 1
-Cody Whitlock 33 0
-Dylan Smith 0 0
-Kaytlin Foutch 0 0
-Kyle Garner 31 1
-Malaina Harsell-sheets 0 0
-Wesley Brannon 0 0
-Zurri Knight 30 4
+Carson,Kissire,0,0
+Claire,Garner,31,1
+Cody,Whitlock,33,0
+Dylan,Smith,0,0
+Kaytlin,Foutch,0,0
+Kyle,Garner,31,1
+Malaina,Harsell-sheets,0,0
+Wesley,Brannon,0,0
+Zurri,Knight,30,4

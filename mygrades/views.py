@@ -501,7 +501,7 @@ def crawler(request, site_name=None):
     if site_name == 'Dreambox Minutes':
         response = get_dream_box_data()
     if site_name == 'Dreambox Lessons':
-        response = get_dream_box_data()
+        response = get_dream_box_lessons_data()
     elif site_name == 'Epic Live Attendance':
         response = get_epiclive_data()
     elif site_name == 'Reading Eggs':

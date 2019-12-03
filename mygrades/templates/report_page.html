@@ -447,10 +447,10 @@
                 <th>S/N</th>
                 <th>First Name</th>
                 <th>Last Name</th>
-                <th>EPIC ID</th>
-                <th>Attendance</th>
-                <th>Class Title</th>
-                <th>Date</th>
+                <th>Total Present</th>
+                <th>Total Absent</th>
+                <!-- <th>Class Title</th>
+                <th>Date</th> -->
 
             </tr>
             </thead>
@@ -460,10 +460,10 @@
                 <td>{{key| add:1}}</td>
                 <td>{{val.first_name}}</td>
                 <td>{{val.last_name}}</td>
-                <td>{{val.epic_id}}</td>
-                <td>{{val.attendance}}</td>
-                <td>{{val.class_title}}</td>
-                <td>{{val.date}}</td>
+                <td>{{val.present}}</td>
+                <td>{{val.absent}}</td>
+                <!-- <td>{{val.class_title}}</td>
+                <td>{{val.date}}</td> -->
 
             </tr>
             {% endfor %}

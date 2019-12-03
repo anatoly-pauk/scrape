@@ -1,22 +1,22 @@
-Carson Kissire 42
-Claire Garner 0 0
-Cody Whitlock 174
-Dylan Smith 0
-Kaytlin Foutch 0
-Kyle Garner 0 0
-Malaina Harsell-sheets 162
-Wesley Brannon 0
-Zurri Knight 162
-Small Aidan 0 0
-Cristina Cavello-Gonzalez 0 0
-Sarita McArthur 0 0
-Sean McArthur 0 0
-Kayleigh Shockey 0 0
-Garrett Stotesbury 0 0
-Kyleigha Wehling 0 0
-Reese Williams 0 0
-Christian Anderson 0 0
-LaNessa Arnold 0 0
-Camdyn Brown 0 0
-Wyatt Condrey 0 0
-Mandi Hathaway 0 0
+Carson,Kissire,0,0
+Claire,Garner,0,0
+Cody,Whitlock,0,0
+Dylan,Smith,0,0
+Kaytlin,Foutch,0,0
+Kyle,Garner,0,0
+Malaina,Harsell-sheets,0,0
+Wesley,Brannon,0,0
+Zurri,Knight,0,0
+Small,Aidan,0,0
+Cristina,Cavello-Gonzalez,0,0
+Sarita,McArthur,0,0
+Sean,McArthur,0,0
+Kayleigh,Shockey,0,0
+Garrett,Stotesbury,0,0
+Kyleigha,Wehling,0,0
+Reese,Williams,0,0
+Christian,Anderson,0,0
+LaNessa,Arnold,0,0
+Camdyn,Brown,0,0
+Wyatt,Condrey,0,0
+Mandi,Hathaway,0,0

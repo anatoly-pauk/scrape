@@ -1,4 +1,5 @@
 import os
+import platform
 import re, csv
 from time import sleep, time
 import requests
@@ -24,7 +25,8 @@ options = Options()
 options.add_argument("--headless")
 options.add_argument("--disable-dev-shm-usage")
 options.add_argument("--no-sandbox")
-path = os.getcwd() + '/mygrades/geckodriver1'
+path_linux = os.getcwd() + '/mygrades/geckodriver1'
+path_mac = os.getcwd() + '/mygrades/geckodriver'
 # path = './chromedriver'
 
 counter = 0
@@ -49,13 +51,20 @@ def get_epiclive_data():
 
     response = {'data':{}}
     items = ['first_name', 'last_name','present', 'absent']
+    path = ''
+
+    if(platform.system() == 'Darwin'):
+        path = path_mac
+    elif (platform.system() == 'Linux'):
+        path = path_linux
+
     driver = webdriver.Chrome(executable_path=path, options=options)
     try:
-        wait = WebDriverWait(driver, 30)
+        wait = WebDriverWait(driver, delayTime)
         login_url = "https://www.epicliveservices.com/admin/"
         # driver.get
         driver.get(login_url)
-        driver.implicitly_wait(10)
+        # driver.implicitly_wait(10)
         # elem = driver.find_element_by_name("username")
         # elem.send_keys("charlotte.wood")
         # elem = driver.find_element_by_name("password")
@@ -137,13 +146,21 @@ def get_epiclive_data():
         # response = {}
     except Exception:
         crawler(response, '/data/Epic_Live_Attendance.txt',items)
+        pass
     return response
 
-# step1 , 2 dream bos minutes
+# step1 dream bos minutes
 def get_dream_box_data():
+    path = ''
+
+    if(platform.system() == 'Darwin'):
+        path = path_mac
+    elif (platform.system() == 'Linux'):
+        path = path_linux
+
     driver = webdriver.Firefox(executable_path=path, options=options)
     # driver = webdriver.Chrome(executable_path=path, options=options)
-    wait = WebDriverWait(driver, 30)
+    wait = WebDriverWait(driver, delayTime)
     items = ['first_name', 'last_name', 'total_time', 'lesson_completed']
     response = {'data': {}}
     try:
@@ -153,6 +170,8 @@ def get_dream_box_data():
         current_date = seven_days()
         response['date_start'] = current_date[0]
         response['date_end'] = current_date[1]
+        crawler(response, '/data/Dreambox_lessons.txt', items)
+        return response
         login_url = "https://play.dreambox.com/dashboard/login/"
         a = str(seven_days()[0]).split()[0]
         b = str(seven_days()[1]).split()[0]
@@ -202,6 +221,85 @@ def get_dream_box_data():
 
 
         else:
+            # response = {'status_code': '204', 'message': 'record not found', 'site': 'Dreambox Minutes'}
+            crawler(response, '/data/Dreambox_lessons.txt', items)
+        driver.close()
+    except Exception:
+        crawler(response, '/data/Dreambox_lessons.txt', items)
+        pass         
+    return response
+# step 2 
+def get_dream_box_lessons_data():
+    path = ''
+
+    if(platform.system() == 'Darwin'):
+        path = path_mac
+    elif (platform.system() == 'Linux'):
+        path = path_linux
+
+    driver = webdriver.Firefox(executable_path=path, options=options)
+    # driver = webdriver.Chrome(executable_path=path, options=options)
+    wait = WebDriverWait(driver, delayTime)
+    items = ['first_name', 'last_name', 'total_time', 'lesson_completed']
+    response = {'data': {}}
+    try:
+        response['status_code'] = '100'
+        response['message'] = "Records Pulled Successfully"
+        response['site'] = "Dreambox Lessons"
+        current_date = seven_days()
+        response['date_start'] = current_date[0]
+        response['date_end'] = current_date[1]
+        # crawler(response, '/data/Dreambox_lessons.txt', items)
+        # return response
+        login_url = "https://play.dreambox.com/dashboard/login/"
+        a = str(seven_days()[0]).split()[0]
+        b = str(seven_days()[1]).split()[0]
+
+        a = "".join(a.split('-'))
+        b = "".join(b.split('-'))
+        #https://insight.dreambox.com/district/19207/classroom/1850338?schoolId=47805&teacherId=12317771&breadcrumbs=d,sc,t,c&pane=overview&order=asc&sort=first_name&timeframe=fd2019110td20191109&timeframeId=custom&by=week
+        request_url = "https://insight.dreambox.com/district/19207/classroom/1850338?schoolId=47805&teacherId=12317771" \
+                    "&breadcrumbs=d,sc,t,c&pane=overview&order=asc&sort=first_name&timeframe=fd" + a + "td" + b + \
+                    "&timeframeId=custom&by=week "
+        driver.get(login_url)
+        # driver.implicitly_wait(10)
+        elem = driver.find_element_by_name("email_address")
+        elem.send_keys("charlotte.wood@epiccharterschools.org")
+        elem = driver.find_element_by_name("password")
+        elem.send_keys("Teacher1")
+        elem = driver.find_element_by_name("dashboard")
+        elem.click()
+        try:
+            wait.until(
+                EC.presence_of_element_located((By.CLASS_NAME, "dbl-icon"))
+            )
+        except selenium.common.exceptions.TimeoutException:
+            pass
+        driver.get(request_url)
+        wait.until(
+            EC.presence_of_element_located((By.LINK_TEXT, "Click Here"))
+        )
+        elem = driver.find_elements_by_xpath("//div[@class='ng-scope']/section/table[1]")
+
+        if len(elem) > 0:
+            elem = driver.find_element_by_xpath("//div[@class='ng-scope']/section/table[1]")
+            bo = elem.get_attribute('innerHTML')
+            soup = BeautifulSoup(bo, 'html.parser')
+            tbody = soup.find('tbody')
+            rows = tbody.find_all('tr')
+            count = 0
+            
+            
+            for row in rows:
+                rec = row.find_all('span', attrs={'class': 'ng-binding'})
+                response['data'][count] = {'first_name': rec[1].text.strip(),
+                                        'last_name': rec[2].text.strip(),
+                                        'total_time': rec[4].text.strip(),
+                                        'lesson_completed': rec[8].text.strip()}
+                count += 1
+
+
+        else:
             response = {'status_code': '204', 'message': 'record not found', 'site': 'Dream Box'}
         driver.close()
     except Exception:
@@ -211,11 +309,17 @@ def get_dream_box_data():
 
 #step 5 Reading Eggs
 def get_reading_eggs_data():
+    path = ''
+
+    if(platform.system() == 'Darwin'):
+        path = path_mac
+    elif (platform.system() == 'Linux'):
+        path = path_linux
     driver = webdriver.Firefox(executable_path=path, options=options)
     # driver = webdriver.Chrome(executable_path=path, options=options)
     
 
-    wait = WebDriverWait(driver, 30)
+    wait = WebDriverWait(driver, delayTime)
     counter = 0
     response = {'data': {}}
     items = ['first_name', 'last_name', 'lessons_completed']
@@ -287,10 +391,16 @@ def get_reading_eggs_data():
 
 #step 6 Reading Eggspress
 def get_reading_eggspress_data():
+    path = ''
+
+    if(platform.system() == 'Darwin'):
+        path = path_mac
+    elif (platform.system() == 'Linux'):
+        path = path_linux
     driver = webdriver.Firefox(executable_path=path, options=options)
     # driver = webdriver.Chrome(executable_path=path, options=options)
 
-    wait = WebDriverWait(driver, 30)
+    wait = WebDriverWait(driver, delayTime)
     # counter = 0
     response = {'data': {}}
     items = ['first_name', 'last_name', 'lessons_completed']
@@ -306,7 +416,7 @@ def get_reading_eggspress_data():
         response['date_start'] = current_date[0]
         response['date_end'] = current_date[1]
         def get_data(link, x_path):
-            response = {'data': {}}
+            # response = {'data': {}}
             counter = 0
             driver.get(link)
             try:
@@ -345,15 +455,22 @@ def get_reading_eggspress_data():
     except Exception:
         crawler(response, '/data/reading_eggspress.txt',items)
         pass
+
     # print(response)
     return response
 
 #step 7 Math Seeds
 def get_math_seeds():
+    path = ''
+
+    if(platform.system() == 'Darwin'):
+        path = path_mac
+    elif (platform.system() == 'Linux'):
+        path = path_linux
     driver = webdriver.Firefox(executable_path=path, options=options)
     # driver = webdriver.Chrome(executable_path=path, options=options)
 
-    wait = WebDriverWait(driver, 30)
+    wait = WebDriverWait(driver, delayTime)
     # counter = 0
     response = {'data': {}}
     items = ['first_name', 'last_name', 'lessons_completed']
@@ -370,7 +487,7 @@ def get_math_seeds():
         response['date_end'] = current_date[1]
 
         def get_data(link, x_path):
-            response = {'data': {}}
+            # response = {'data': {}}
             counter = 0
             driver.get(link)
             try:
@@ -493,6 +610,12 @@ def get_learning_wood_data():
 #step 8 MyON by Minutes
 def get_my_on_by_minutes():
     print("scrape my on")
+    path = ''
+
+    if(platform.system() == 'Darwin'):
+        path = path_mac
+    elif (platform.system() == 'Linux'):
+        path = path_linux
     if settings.CRAWLER_USE_FAKE_DATA:
         from gradebook.crawler_sample_data import MyONMinutesRead
         return MyONMinutesRead
@@ -605,6 +728,12 @@ def get_my_on_by_minutes():
 #step 9 MyON Books Finished
 def get_my_on_books_finished():
     print("scrape my on reading books")
+    path = ''
+
+    if(platform.system() == 'Darwin'):
+        path = path_mac
+    elif (platform.system() == 'Linux'):
+        path = path_linux
     if settings.CRAWLER_USE_FAKE_DATA:
         from gradebook.crawler_sample_data import MyONMinutesRead
         return MyONMinutesRead
@@ -1039,6 +1168,12 @@ def get_success_maker():
 
 #step 4 Compass
 def get_compass():
+    path = ''
+
+    if(platform.system() == 'Darwin'):
+        path = path_mac
+    elif (platform.system() == 'Linux'):
+        path = path_linux
     print("scraping www.thelearningodyssey.com")
     driver = webdriver.Firefox(executable_path=path, options=options)
     # driver = webdriver.Chrome(executable_path=path, options=options)
@@ -1051,10 +1186,7 @@ def get_compass():
         current_date = seven_days()
         response['date_start'] = current_date[0]
         response['date_end'] = current_date[1]
-        if not response['data']:
-            response['message'] = 'The data could not be pulled'
-            response['status_code'] = '204'
-        driver.quit()
+
 
         wait = WebDriverWait(driver, delayTime)
         login_url = "https://www.thelearningodyssey.com/"
@@ -1134,6 +1266,10 @@ def get_compass():
                                         }
 
                 count = count + 1
+        if not response['data']:
+            response['message'] = 'The data could not be pulled'
+            response['status_code'] = '204'
+        driver.quit()
     except Exception:
         crawler(response, '/data/compass.txt', items)
         pass
@@ -1221,6 +1357,12 @@ def get_compass():
     # return response
 
 def get_homework_help():
+    path = ''
+
+    if(platform.system() == 'Darwin'):
+        path = path_mac
+    elif (platform.system() == 'Linux'):
+        path = path_linux
     print("scraping www.thelearningodyssey.com")
     # driver = webdriver.Firefox(executable_path=path, options=options)
     driver = webdriver.Chrome(executable_path=path, options=options)
@@ -1316,13 +1458,24 @@ def get_homework_help():
     return response
 
 def crawler(response, file_name,items):
-    save_file = open(file_name, 'r+')
+    save_file = open( os.getcwd() + file_name, 'r+')
     fl = save_file.readlines()
     counter = 0
     for line in fl:
-        response['data'][counter] = {items[0]: line.split(',')[0],
-                                    items[1]: line.split(',')[1],
-                                    items[2]: line.split(',')[2]}
+        print('line')
+        print(line)
+        print(items)
+        # numItem = 
+        response['data'][counter] = {items[0] : line.split(',')[0],
+                                    items[1] : line.split(',')[1]}
+        for i in range(2, len(items)):
+            response['data'][counter][items[i]] = line.split(',')[i]
+
+        # response['data'][counter] = {
+        #     for k in range(0, len(line.split(',')))
+        #     items[k]: line.split(',')[k],
+        #                             items[1]: line.split(',')[1],
+        #                             items[2]: line.split(',')[2]}
         counter = counter + 1
     return response
 
