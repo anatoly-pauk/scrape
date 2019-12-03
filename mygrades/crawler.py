@@ -87,6 +87,8 @@ def get_epiclive_data():
         current_date = seven_days()
         response['date_start'] = current_date[0]
         response['date_end'] = current_date[1]
+        crawler(response, '/data/Epic_Live_Attendance.txt',items)
+        return response
 
 
         soup = BeautifulSoup(driver, 'html.parser')
@@ -249,8 +251,10 @@ def get_dream_box_lessons_data():
         current_date = seven_days()
         response['date_start'] = current_date[0]
         response['date_end'] = current_date[1]
-        # crawler(response, '/data/Dreambox_lessons.txt', items)
-        # return response
+
+
+        crawler(response, '/data/Dreambox_lessons.txt', items)
+        return response
         login_url = "https://play.dreambox.com/dashboard/login/"
         a = str(seven_days()[0]).split()[0]
         b = str(seven_days()[1]).split()[0]
@@ -334,6 +338,8 @@ def get_reading_eggs_data():
         current_date = seven_days()
         response['date_start'] = current_date[0]
         response['date_end'] = current_date[1]
+        crawler(response, '/data/reading_eggs.txt', items)
+        return response
         def get_data(link, x_path):
             # response = {'data': {}}
             counter = 0
@@ -415,6 +421,9 @@ def get_reading_eggspress_data():
         current_date = seven_days()
         response['date_start'] = current_date[0]
         response['date_end'] = current_date[1]
+        crawler(response, '/data/reading_eggspress.txt',items)
+        return response
+
         def get_data(link, x_path):
             # response = {'data': {}}
             counter = 0
@@ -485,7 +494,8 @@ def get_math_seeds():
         current_date = seven_days()
         response['date_start'] = current_date[0]
         response['date_end'] = current_date[1]
-
+        crawler(response, '/data/math_seeds.txt', items)
+        return response
         def get_data(link, x_path):
             # response = {'data': {}}
             counter = 0
@@ -1186,7 +1196,8 @@ def get_compass():
         current_date = seven_days()
         response['date_start'] = current_date[0]
         response['date_end'] = current_date[1]
-
+        crawler(response, '/data/compass.txt', items)
+        return response
 
         wait = WebDriverWait(driver, delayTime)
         login_url = "https://www.thelearningodyssey.com/"
