@@ -61,10 +61,10 @@ def get_epiclive_data():
     # crawler(response, '/data/Epic_Live_Attendance.txt',items)
     # return response
 
-    if(platform.system() == 'Darwin'):
-        path = path_mac
-    elif (platform.system() == 'Linux'):
-        path = path_linux
+    # if(platform.system() == 'Darwin'):
+    #     path = path_mac
+    # elif (platform.system() == 'Linux'):
+    path = path_linux
 
     # driver = webdriver.Chrome(executable_path=path, options=options)
     driver = webdriver.Firefox(executable_path=path, options=options)
@@ -157,10 +157,10 @@ def get_epiclive_data():
 def get_dream_box_data():
     path = ''
 
-    if(platform.system() == 'Darwin'):
-        path = path_mac
-    elif (platform.system() == 'Linux'):
-        path = path_linux
+    # if(platform.system() == 'Darwin'):
+    #     path = path_mac
+    # elif (platform.system() == 'Linux'):
+    path = path_linux
     items = ['first_name', 'last_name', 'total_time', 'lesson_completed']
     response = {'data': {}}
     response['status_code'] = '100'
@@ -238,10 +238,10 @@ def get_dream_box_data():
 def get_dream_box_lessons_data():
     path = ''
 
-    if(platform.system() == 'Darwin'):
-        path = path_mac
-    elif (platform.system() == 'Linux'):
-        path = path_linux
+    # if(platform.system() == 'Darwin'):
+    #     path = path_mac
+    # elif (platform.system() == 'Linux'):
+    path = path_linux
     items = ['first_name', 'last_name', 'total_time', 'lesson_completed']
     response = {'data': {}}
     response['status_code'] = '100'
@@ -321,10 +321,10 @@ def get_dream_box_lessons_data():
 def get_reading_eggs_data():
     path = ''
 
-    if(platform.system() == 'Darwin'):
-        path = path_mac
-    elif (platform.system() == 'Linux'):
-        path = path_linux
+    # if(platform.system() == 'Darwin'):
+    #     path = path_mac
+    # elif (platform.system() == 'Linux'):
+    path = path_linux
     response = {'data': {}}
 
     items = ['first_name', 'last_name', 'lessons_completed']
@@ -409,10 +409,10 @@ def get_reading_eggs_data():
 def get_reading_eggspress_data():
     path = ''
 
-    if(platform.system() == 'Darwin'):
-        path = path_mac
-    elif (platform.system() == 'Linux'):
-        path = path_linux
+    # if(platform.system() == 'Darwin'):
+    #     path = path_mac
+    # elif (platform.system() == 'Linux'):
+    path = path_linux
     
     # counter = 0
     response = {'data': {}}
@@ -486,10 +486,10 @@ def get_reading_eggspress_data():
 def get_math_seeds():
     path = ''
 
-    if(platform.system() == 'Darwin'):
-        path = path_mac
-    elif (platform.system() == 'Linux'):
-        path = path_linux
+    # if(platform.system() == 'Darwin'):
+    #     path = path_mac
+    # elif (platform.system() == 'Linux'):
+    path = path_linux
     response = {'data': {}}
     items = ['first_name', 'last_name', 'lessons_completed']
     response['status_code'] = '100'
@@ -1207,10 +1207,10 @@ def get_compass():
     # crawler(response, '/data/compass.txt', items)
     # return response
 
-    if(platform.system() == 'Darwin'):
-        path = path_mac
-    elif (platform.system() == 'Linux'):
-        path = path_linux
+    # if(platform.system() == 'Darwin'):
+    #     path = path_mac
+    # elif (platform.system() == 'Linux'):
+    path = path_linux
     print("scraping www.thelearningodyssey.com")
     driver = webdriver.Firefox(executable_path=path, options=options)
     # driver = webdriver.Chrome(executable_path=path, options=options)
