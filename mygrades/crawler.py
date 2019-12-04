@@ -52,18 +52,27 @@ def get_epiclive_data():
     response = {'data':{}}
     items = ['first_name', 'last_name','present', 'absent']
     path = ''
+    response['status_code'] = '100'
+    response['message'] = "Records Pulled Successfully"
+    response['site'] = "Epic Live Attendance"
+    current_date = seven_days()
+    response['date_start'] = current_date[0]
+    response['date_end'] = current_date[1]
+    crawler(response, '/data/Epic_Live_Attendance.txt',items)
+    return response
 
     if(platform.system() == 'Darwin'):
         path = path_mac
     elif (platform.system() == 'Linux'):
         path = path_linux
 
-    driver = webdriver.Chrome(executable_path=path, options=options)
+    # driver = webdriver.Chrome(executable_path=path, options=options)
+    driver = webdriver.Firefox(executable_path=path, options=options)
     try:
         wait = WebDriverWait(driver, delayTime)
         login_url = "https://www.epicliveservices.com/admin/"
         # driver.get
-        driver.get(login_url)
+        
         # driver.implicitly_wait(10)
         # elem = driver.find_element_by_name("username")
         # elem.send_keys("charlotte.wood")
@@ -81,16 +90,9 @@ def get_epiclive_data():
         # r = requests.get("https://www.epicliveservices.com/admin/login")
         # content = r.content
 
-        response['status_code'] = '100'
-        response['message'] = "Records Pulled Successfully"
-        response['site'] = "Epic Live Attendance"
-        current_date = seven_days()
-        response['date_start'] = current_date[0]
-        response['date_end'] = current_date[1]
-        crawler(response, '/data/Epic_Live_Attendance.txt',items)
-        return response
+        
 
-
+        driver.get(login_url)
         soup = BeautifulSoup(driver, 'html.parser')
         inputs = soup.find('input')['value']
         param = soup.findAll('input')[-2]['value']
@@ -159,21 +161,23 @@ def get_dream_box_data():
         path = path_mac
     elif (platform.system() == 'Linux'):
         path = path_linux
+    items = ['first_name', 'last_name', 'total_time', 'lesson_completed']
+    response = {'data': {}}
+    response['status_code'] = '100'
+    response['message'] = "Records Pulled Successfully"
+    response['site'] = "Dreambox Minutes"
+    current_date = seven_days()
+    response['date_start'] = current_date[0]
+    response['date_end'] = current_date[1]
+    crawler(response, '/data/Dreambox_lessons.txt', items)
+    return response
 
     driver = webdriver.Firefox(executable_path=path, options=options)
     # driver = webdriver.Chrome(executable_path=path, options=options)
     wait = WebDriverWait(driver, delayTime)
-    items = ['first_name', 'last_name', 'total_time', 'lesson_completed']
-    response = {'data': {}}
+
     try:
-        response['status_code'] = '100'
-        response['message'] = "Records Pulled Successfully"
-        response['site'] = "Dreambox Minutes"
-        current_date = seven_days()
-        response['date_start'] = current_date[0]
-        response['date_end'] = current_date[1]
-        crawler(response, '/data/Dreambox_lessons.txt', items)
-        return response
+
         login_url = "https://play.dreambox.com/dashboard/login/"
         a = str(seven_days()[0]).split()[0]
         b = str(seven_days()[1]).split()[0]
@@ -238,23 +242,25 @@ def get_dream_box_lessons_data():
         path = path_mac
     elif (platform.system() == 'Linux'):
         path = path_linux
+    items = ['first_name', 'last_name', 'total_time', 'lesson_completed']
+    response = {'data': {}}
+    response['status_code'] = '100'
+    response['message'] = "Records Pulled Successfully"
+    response['site'] = "Dreambox Lessons"
+    current_date = seven_days()
+    response['date_start'] = current_date[0]
+    response['date_end'] = current_date[1]
+    crawler(response, '/data/Dreambox_lessons.txt', items)
+    return response
 
     driver = webdriver.Firefox(executable_path=path, options=options)
     # driver = webdriver.Chrome(executable_path=path, options=options)
     wait = WebDriverWait(driver, delayTime)
-    items = ['first_name', 'last_name', 'total_time', 'lesson_completed']
-    response = {'data': {}}
+
     try:
-        response['status_code'] = '100'
-        response['message'] = "Records Pulled Successfully"
-        response['site'] = "Dreambox Lessons"
-        current_date = seven_days()
-        response['date_start'] = current_date[0]
-        response['date_end'] = current_date[1]
 
 
-        crawler(response, '/data/Dreambox_lessons.txt', items)
-        return response
+
         login_url = "https://play.dreambox.com/dashboard/login/"
         a = str(seven_days()[0]).split()[0]
         b = str(seven_days()[1]).split()[0]
@@ -319,27 +325,30 @@ def get_reading_eggs_data():
         path = path_mac
     elif (platform.system() == 'Linux'):
         path = path_linux
+    response = {'data': {}}
+
+    items = ['first_name', 'last_name', 'lessons_completed']
+    response['status_code'] = '100'
+    response['title'] = 'Reading Eggs'
+    response['message'] = "pulled Successfully"
+    if not response['data']:
+        response['status_code'] = '204',
+        response['message'] = 'Data Could Not Be Pulled'
+    response['site'] = "Reading Eggs"
+    current_date = seven_days()
+    response['date_start'] = current_date[0]
+    response['date_end'] = current_date[1]
+    crawler(response, '/data/reading_eggs.txt', items)
+    return response
     driver = webdriver.Firefox(executable_path=path, options=options)
     # driver = webdriver.Chrome(executable_path=path, options=options)
     
 
     wait = WebDriverWait(driver, delayTime)
     counter = 0
-    response = {'data': {}}
-    items = ['first_name', 'last_name', 'lessons_completed']
+
     try:
-        response['status_code'] = '100'
-        response['title'] = 'Reading Eggs'
-        response['message'] = "pulled Successfully"
-        if not response['data']:
-            response['status_code'] = '204',
-            response['message'] = 'Data Could Not Be Pulled'
-        response['site'] = "Reading Eggs"
-        current_date = seven_days()
-        response['date_start'] = current_date[0]
-        response['date_end'] = current_date[1]
-        crawler(response, '/data/reading_eggs.txt', items)
-        return response
+        
         def get_data(link, x_path):
             # response = {'data': {}}
             counter = 0
@@ -404,26 +413,30 @@ def get_reading_eggspress_data():
         path = path_mac
     elif (platform.system() == 'Linux'):
         path = path_linux
-    driver = webdriver.Firefox(executable_path=path, options=options)
-    # driver = webdriver.Chrome(executable_path=path, options=options)
-
-    wait = WebDriverWait(driver, delayTime)
+    
     # counter = 0
     response = {'data': {}}
     items = ['first_name', 'last_name', 'lessons_completed']
+    response['status_code'] = '100'
+    response['title'] = 'Reading Eggspress'
+    response['message'] = "pulled Successfully"
+    if not response['data']:
+        response['status_code'] = '204',
+        response['message'] = 'Data Could Not Be Pulled'
+    response['site'] = "Reading Eggspress"
+    current_date = seven_days()
+    response['date_start'] = current_date[0]
+    response['date_end'] = current_date[1]
+    crawler(response, '/data/reading_eggpress.txt',items)
+    return response
+
+    driver = webdriver.Firefox(executable_path=path, options=options)
+    # driver = webdriver.Chrome(executable_path=path, options=options)
+    wait = WebDriverWait(driver, delayTime)
+
+    
     try:
-        response['status_code'] = '100'
-        response['title'] = 'Reading Eggspress'
-        response['message'] = "pulled Successfully"
-        if not response['data']:
-            response['status_code'] = '204',
-            response['message'] = 'Data Could Not Be Pulled'
-        response['site'] = "Reading Eggspress"
-        current_date = seven_days()
-        response['date_start'] = current_date[0]
-        response['date_end'] = current_date[1]
-        crawler(response, '/data/reading_eggspress.txt',items)
-        return response
+
 
         def get_data(link, x_path):
             # response = {'data': {}}
@@ -477,26 +490,28 @@ def get_math_seeds():
         path = path_mac
     elif (platform.system() == 'Linux'):
         path = path_linux
+    response = {'data': {}}
+    items = ['first_name', 'last_name', 'lessons_completed']
+    response['status_code'] = '100'
+    response['title'] = 'Math Seeds'
+    response['message'] = "pulled Successfully"
+    if not response['data']:
+        response['status_code'] = '204',
+        response['message'] = 'Data Could Not Be Pulled'
+    response['site'] = "Math Seeds"
+    current_date = seven_days()
+    response['date_start'] = current_date[0]
+    response['date_end'] = current_date[1]
+    crawler(response, '/data/math_seeds.txt', items)
+    return response
     driver = webdriver.Firefox(executable_path=path, options=options)
     # driver = webdriver.Chrome(executable_path=path, options=options)
 
     wait = WebDriverWait(driver, delayTime)
     # counter = 0
-    response = {'data': {}}
-    items = ['first_name', 'last_name', 'lessons_completed']
+
     try:
-        response['status_code'] = '100'
-        response['title'] = 'Math Seeds'
-        response['message'] = "pulled Successfully"
-        if not response['data']:
-            response['status_code'] = '204',
-            response['message'] = 'Data Could Not Be Pulled'
-        response['site'] = "Math Seeds"
-        current_date = seven_days()
-        response['date_start'] = current_date[0]
-        response['date_end'] = current_date[1]
-        crawler(response, '/data/math_seeds.txt', items)
-        return response
+
         def get_data(link, x_path):
             # response = {'data': {}}
             counter = 0
@@ -1181,6 +1196,17 @@ def get_success_maker():
 def get_compass():
     path = ''
 
+    response = {'data': {}}
+    items = ['first_name', 'last_name', 'course_name','course_grade']
+    response['status_code'] = '100'
+    response['message'] = 'pulled successfully'
+    response['site'] = 'Compass'
+    current_date = seven_days()
+    response['date_start'] = current_date[0]
+    response['date_end'] = current_date[1]
+    crawler(response, '/data/compass.txt', items)
+    return response
+
     if(platform.system() == 'Darwin'):
         path = path_mac
     elif (platform.system() == 'Linux'):
@@ -1188,17 +1214,9 @@ def get_compass():
     print("scraping www.thelearningodyssey.com")
     driver = webdriver.Firefox(executable_path=path, options=options)
     # driver = webdriver.Chrome(executable_path=path, options=options)
-    response = {'data': {}}
-    items = ['first_name', 'last_name', 'course_name','course_grade']
+    
     try:
-        response['status_code'] = '100'
-        response['message'] = 'pulled successfully'
-        response['site'] = 'Compass'
-        current_date = seven_days()
-        response['date_start'] = current_date[0]
-        response['date_end'] = current_date[1]
-        crawler(response, '/data/compass.txt', items)
-        return response
+        
 
         wait = WebDriverWait(driver, delayTime)
         login_url = "https://www.thelearningodyssey.com/"
