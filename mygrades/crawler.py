@@ -338,8 +338,8 @@ def get_reading_eggs_data():
     current_date = seven_days()
     response['date_start'] = current_date[0]
     response['date_end'] = current_date[1]
-    # crawler(response, '/data/reading_eggs.txt', items)
-    # return response
+    crawler(response, '/data/reading_eggs.txt', items)
+    return response
     driver = webdriver.Firefox(executable_path=path, options=options)
     # driver = webdriver.Chrome(executable_path=path, options=options)
     
