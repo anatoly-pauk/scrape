@@ -1,6 +1,6 @@
 import os
 
-from decouple import config
+# from decouple import config
 
 from .email_info import *
 #for gmail
