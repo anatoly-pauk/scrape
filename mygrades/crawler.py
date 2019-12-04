@@ -1490,6 +1490,7 @@ def get_homework_help():
 def crawler(response, file_name,items):
     save_file = open( os.getcwd() + file_name, 'r+')
     fl = save_file.readlines()
+    sleep(20)
     counter = 0
     for line in fl:
         print('line')
