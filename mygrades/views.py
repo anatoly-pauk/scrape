@@ -40,6 +40,8 @@ from scrapyd_api import ScrapydAPI
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+import platform
+
 from mygrades.crawler import *
 from mygrades.filters import (
     StudentFilter,
@@ -533,6 +535,7 @@ def crawler(request, site_name=None):
     now = datetime.datetime.now()
     current_time = now.strftime("%H:%M:%S")
     print("Current Time =", current_time)
+    print(platform.system())
     print(response)
     return render(request, template_name, response)
 
