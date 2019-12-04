@@ -58,8 +58,8 @@ def get_epiclive_data():
     current_date = seven_days()
     response['date_start'] = current_date[0]
     response['date_end'] = current_date[1]
-    # crawler(response, '/data/Epic_Live_Attendance.txt',items)
-    # return response
+    crawler(response, '/data/Epic_Live_Attendance.txt',items)
+    return response
 
     # if(platform.system() == 'Darwin'):
     #     path = path_mac
@@ -169,8 +169,8 @@ def get_dream_box_data():
     current_date = seven_days()
     response['date_start'] = current_date[0]
     response['date_end'] = current_date[1]
-    # crawler(response, '/data/Dreambox_lessons.txt', items)
-    # return response
+    crawler(response, '/data/Dreambox_lessons.txt', items)
+    return response
 
     driver = webdriver.Firefox(executable_path=path, options=options)
     # driver = webdriver.Chrome(executable_path=path, options=options)
@@ -250,8 +250,8 @@ def get_dream_box_lessons_data():
     current_date = seven_days()
     response['date_start'] = current_date[0]
     response['date_end'] = current_date[1]
-    # crawler(response, '/data/Dreambox_lessons.txt', items)
-    # return response
+    crawler(response, '/data/Dreambox_lessons.txt', items)
+    return response
 
     driver = webdriver.Firefox(executable_path=path, options=options)
     # driver = webdriver.Chrome(executable_path=path, options=options)
@@ -338,8 +338,8 @@ def get_reading_eggs_data():
     current_date = seven_days()
     response['date_start'] = current_date[0]
     response['date_end'] = current_date[1]
-    # crawler(response, '/data/reading_eggs.txt', items)
-    # return response
+    crawler(response, '/data/reading_eggs.txt', items)
+    return response
     driver = webdriver.Firefox(executable_path=path, options=options)
     # driver = webdriver.Chrome(executable_path=path, options=options)
     
@@ -1204,8 +1204,8 @@ def get_compass():
     current_date = seven_days()
     response['date_start'] = current_date[0]
     response['date_end'] = current_date[1]
-    # crawler(response, '/data/compass.txt', items)
-    # return response
+    crawler(response, '/data/compass.txt', items)
+    return response
 
     # if(platform.system() == 'Darwin'):
     #     path = path_mac
