@@ -605,3 +605,23 @@ Exiting due to channel error.
 1575454952580	Marionette	INFO	Listening on port 59364
 1575454952625	Marionette	WARN	TLS certificate errors will be ignored for this session
 1575454980592	Marionette	INFO	Stopped listening on port 59364
+2019-12-04 20:03:41.838 firefox-bin[64982:1966711] HIToolbox: received notification of WindowServer event port death.
+2019-12-04 20:03:41.838 firefox-bin[64982:1966711] port matched the WindowServer port created in BindCGSToRunLoop
+2019-12-04 20:03:41.838 firefox-bin[68921:2383495] HIToolbox: received notification of WindowServer event port death.
+2019-12-04 20:03:41.838 firefox-bin[68921:2383495] port matched the WindowServer port created in BindCGSToRunLoop
+2019-12-04 20:03:41.839 firefox-bin[65692:1990570] HIToolbox: received notification of WindowServer event port death.
+2019-12-04 20:03:41.839 firefox-bin[65692:1990570] port matched the WindowServer port created in BindCGSToRunLoop
+2019-12-04 20:03:41.839 firefox-bin[65672:1987440] HIToolbox: received notification of WindowServer event port death.
+2019-12-04 20:03:41.839 firefox-bin[65672:1987440] port matched the WindowServer port created in BindCGSToRunLoop
+2019-12-04 20:03:41.839 firefox-bin[65204:1972111] HIToolbox: received notification of WindowServer event port death.
+2019-12-04 20:03:41.839 firefox-bin[64988:1966970] HIToolbox: received notification of WindowServer event port death.
+2019-12-04 20:03:41.839 firefox-bin[65204:1972111] port matched the WindowServer port created in BindCGSToRunLoop
+2019-12-04 20:03:41.839 firefox-bin[64988:1966970] port matched the WindowServer port created in BindCGSToRunLoop
+2019-12-04 20:03:41.839 firefox-bin[64961:1965656] HIToolbox: received notification of WindowServer event port death.
+2019-12-04 20:03:41.840 firefox-bin[65211:1972467] HIToolbox: received notification of WindowServer event port death.
+2019-12-04 20:03:41.840 firefox-bin[64961:1965656] port matched the WindowServer port created in BindCGSToRunLoop
+2019-12-04 20:03:41.840 firefox-bin[65211:1972467] port matched the WindowServer port created in BindCGSToRunLoop
+2019-12-04 20:03:41.840 firefox-bin[65635:1985991] HIToolbox: received notification of WindowServer event port death.
+2019-12-04 20:03:41.840 firefox-bin[65635:1985991] port matched the WindowServer port created in BindCGSToRunLoop
+No session list!
+No session list!
